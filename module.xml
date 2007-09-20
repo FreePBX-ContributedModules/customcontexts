@@ -1,0 +1,57 @@
+<module>
+	<rawname>customcontexts</rawname>
+	<name>Custom Contexts</name>
+	<version>0.3.3</version>
+	<type>setup</type>
+	<category>Advanced</category>
+	<description>
+		Creates custom contexts which can be used to allow limited access to dialplan applications.
+		Allows for time restrictions on any dialplan access.
+		Allows for pattern matching to allow/deny.
+		Allows for failover destinations, and PIN protected failover.
+		This can be very useful for multi-tennant systems.
+		Inbound routing can be done using DID or zap channel routing,	this module allows for selective outbound routing.
+		House/public phones can be placed in a restricted context allowing them only internal calls.
+	</description>
+	<menuitems>
+		<customcontexts>Custom Contexts</customcontexts>
+		<customcontextsadmin type="tool" category="System Administration">Custom Contexts Admin</customcontextsadmin>
+		<customcontextstimes>Custom Contexts Times</customcontextstimes>
+	</menuitems>
+	<info>http://aussievoip.com.au/wiki/freePBX-CustomContexts</info>
+        <depends>
+                <module>core</module>
+        </depends>
+        <changelog>
+                *0.3.3* Added Set All option to quickly allow/deny all.
+                        Fixed bug which caused routes to be denied after rename/sort/or delete other route.
+                *0.3.2* Optional PIN to protect failover destination.
+                        Contexts can now be used as destinations. An IVR menu, Time Condition, etc. can now send a caller into a custom context.
+                        (This last feature requires a bugfix in 2.2 after rc1. bug #1549)
+                *0.3.1* Now prompts on delete. After duplicate you are editing new context. Allows rename context.
+                *0.3.0* New Features:
+                        Allow or Deny based on pattern matching.
+                        Failover Destination (one for regular extension, one for failed feature codes)
+                        Bugfixes:
+                        Adjusted Gui, Duplicate context, now duplicates the description too.
+                *0.2.2* Bugfix: Duplicate Context now copies the priority also.
+                *0.2.1* Added Duplicate Context option to easily copy an entire set of rules.
+                *0.2.0* Added priority feature to allow the user to control in what order the allowed contexts are included.
+                *0.1.3* Made it obvious when allowing one include may allow another entire context.
+                *0.1.2* Bugfixes- deleted routes, etc. now are removed.
+                        Context tests for spaces and illegal chars.
+                        Moved admin to tools to reduce confusion.
+                        Added option to allow entire internal dialplan. (Usefull for time limit on everything)
+                        Made description for outbound-allroutes clearer that allowing overrides to allow all routes.
+                *0.1.1* Still Beta, added time groups and bugfixes
+                *0.0.1* Beta release
+        </changelog>
+	<attention>
+		This is an advanced module, and you should not use it without understanding asterisk dialplans!
+		This is meant as a convenience tool for someone who would have had to resort to config editing.
+		If you experience problems with it, just disable it and no harm done.
+		REMEMBER! Any device placed in a restricted context will have no access to the dialplan if this module is disabled until it is placed in a normal context!
+	</attention>
+	<location>release/customcontext-0.3.3.tgz</location>
+	<md5sum>278f45ab14e9b56acfdad552b3becc14</md5sum>
+</module>
