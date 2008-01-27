@@ -50,7 +50,7 @@ function customcontexts_hookGet_config($engine) {
 							$sql = "update customcontexts_includes_list  set missing = 0, sort = $i where context = '$section' and include = '$include'";
 							$db->query($sql);
                         }
-						$sql = "INSERT INTO customcontexts_includes_list (context, include, description, sort) VALUES ('$section', '$include', '$include', $i)";
+						$sql = "INSERT IGNORE INTO customcontexts_includes_list (context, include, description, sort) VALUES ('$section', '$include', '$include', $i)";
 						$db->query($sql);
 					}
 				}
@@ -222,36 +222,45 @@ function customcontexts_getincludes($context) {
 //these are the users custom contexts
 function customcontexts_getcontexts() {
 	global $db;
+	$tmparray = array();
 	$sql = "select context, description from customcontexts_contexts order by description";
 	$results = $db->getAll($sql);
-	if(DB::IsError($results)) 
-		$results = null;
-	foreach ($results as $val)
+	if(DB::IsError($results)) {
+		$results = array();
+	}
+	foreach ($results as $val) {
 		$tmparray[] = array($val[0], $val[1]);
+	}
 	return $tmparray;
 }
 
 //lists any time groups defined by the user
 function customcontexts_gettimegroups() {
 	global $db;
+	$tmparray = array();
 	$sql = "select id, description from customcontexts_timegroups order by description";
 	$results = $db->getAll($sql);
-	if(DB::IsError($results)) 
-		$results = null;
-	foreach ($results as $val)
+	if(DB::IsError($results)) {
+		$results = array();
+	}
+	foreach ($results as $val) {
 		$tmparray[] = array($val[0], $val[1]);
+	}
 	return $tmparray;
 }
 
 //these are the users time selections for the current timegroup
 function customcontexts_gettimes($timegroup) {
 	global $db;
+	$tmparray = array();
 	$sql = "select id, time from customcontexts_timegroups_detail where timegroupid = $timegroup";
 	$results = $db->getAll($sql);
-	if(DB::IsError($results)) 
-		$results = null;
-	foreach ($results as $val)
+	if(DB::IsError($results)) {
+		$results = array();
+	}
+	foreach ($results as $val) {
 		$tmparray[] = array($val[0], $val[1]);
+	}
 	return $tmparray;
 }
 
