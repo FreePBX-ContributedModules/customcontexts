@@ -3,7 +3,7 @@
 	<name>Custom Contexts</name>
 	<version>0.3.4</version>
 	<type>setup</type>
-	<category>Advanced</category>
+	<category>Third Party Addon</category>
 	<description>
 		Creates custom contexts which can be used to allow limited access to dialplan applications.
 		Allows for time restrictions on any dialplan access.
