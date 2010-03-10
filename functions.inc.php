@@ -425,7 +425,9 @@ global $currentcomponent;
 function customcontexts_devices_configpageload() {
 global $currentcomponent;
 //should get current context if possible
-	$curcontext = '';
+	$extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:null;
+	$query="SELECT `data` FROM `sip` WHERE `keyword`='context' AND `id`='".$extdisplay."'";
+	$curcontext = mysql_result(mysql_query($query), 0);
 	$currentcomponent->addguielem('Device Options', new gui_selectbox('customcontext', $currentcomponent->getoptlist('contextssel'), $curcontext, 'Custom Context', 'You have the '.customcontexts_getmodulevalue('moduledisplayname').' Module installed! You can select a custom context from this list to limit this user to portions of the dialplan you defined in the '.customcontexts_getmodulevalue('moduledisplayname').' module.',true, "javascript:if (document.frm_devices.customcontext.value) {document.frm_devices.devinfo_context.value = document.frm_devices.customcontext.value} else {document.frm_devices.devinfo_context.value = 'from-internal'}"));
 }
 
@@ -433,7 +435,9 @@ global $currentcomponent;
 function customcontexts_extensions_configpageload() {
 global $currentcomponent;
 //should get current context if possible
-	$curcontext = '';
+	$extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:null;
+	$query="SELECT `data` FROM `sip` WHERE `keyword`='context' AND `id`='".$extdisplay."'";
+	$curcontext = mysql_result(mysql_query($query), 0);
 	$currentcomponent->addguielem('Device Options', new gui_selectbox('customcontext', $currentcomponent->getoptlist('contextssel'), $curcontext, 'Custom Context', 'You have the '.customcontexts_getmodulevalue('moduledisplayname').' Module installed! You can select a custom context from this list to limit this user to portions of the dialplan you defined in the '.customcontexts_getmodulevalue('moduledisplayname').' module.',true, "javascript:if (document.frm_extensions.customcontext.value) {document.frm_extensions.devinfo_context.value = document.frm_extensions.customcontext.value} else {document.frm_extensions.devinfo_context.value = 'from-internal'}"));
 }
 
