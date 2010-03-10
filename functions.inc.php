@@ -3,12 +3,26 @@
 
 //used to get module information
 function customcontexts_getmodulevalue($id) {
-	global $db;
+global $db;
+
+switch ($id) {
+  case 'moduledisplayname':
+    $module_info = module_getinfo('customcontext');
+    return($module_info['customcontext']['name']);
+    break;
+
+  case 'moduleversion':
+    $module_info = module_getinfo('customcontext');
+    return($module_info['customcontext']['version']);
+    break;
+
+  default:
 	$sql = "select value from customcontexts_module where id = '$id'";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) 
 		$results = null;
 	return isset($results)?$results[0][0]:null;
+  }
 }
 
 //used to get module information
