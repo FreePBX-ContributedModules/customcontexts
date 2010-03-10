@@ -54,6 +54,6 @@
 		If you experience problems with it, just disable it and no harm done.
 		REMEMBER! Any device placed in a restricted context will have no access to the dialplan if this module is disabled until it is placed in a normal context!
 	</attention>
-	<location>contributed_modules/release/customcontexts-0.3.4.tgz</location>
-	<md5sum>d987fd26e76a00a4b11840036d4d4f32</md5sum>
+	<location>contributed_modules/release/customcontexts-0.3.5.tgz</location>
+	<md5sum>69192c610cb8985dc3baee543ffe9ef0</md5sum>
 </module>
