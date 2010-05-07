@@ -7,13 +7,13 @@ global $db;
 
 switch ($id) {
   case 'moduledisplayname':
-    $module_info = module_getinfo('customcontext');
-    return($module_info['customcontext']['name']);
+    $module_info = module_getinfo('customcontexts');
+    return($module_info['customcontexts']['name']);
     break;
 
   case 'moduleversion':
-    $module_info = module_getinfo('customcontext');
-    return($module_info['customcontext']['version']);
+    $module_info = module_getinfo('customcontexts');
+    return($module_info['customcontexts']['version']);
     break;
 
   default:
@@ -486,7 +486,8 @@ global $currentcomponent;
 		$delURL = $_SERVER['PHP_SELF'].'?'.$query.'&action=del';
 		$info = 'The context which contains includes which you would like to make available to '.customcontexts_getmodulevalue('moduledisplayname').'. Any context you enter here will be parsed for includes and you can then include them in your own '.customcontexts_getmodulevalue('moduledisplayname').'. Removing them here does NOT delete the context, rather makes them unavailable to your '.customcontexts_getmodulevalue('moduledisplayname').'.';
 	       $currentcomponent->addguielem('_top', new gui_hidden('action', ($extdisplay ? 'edit' : 'add')));
-		$currentcomponent->addguielem('_bottom', new gui_link('del', _(customcontexts_getmodulevalue('moduledisplayname')." v".customcontexts_getmodulevalue('moduleversion')), 'http://aussievoip.com.au/wiki/freePBX-CustomContexts', true, false), 0);
+		$currentcomponent->addguielem('_bottom', new gui_link('help', _(customcontexts_getmodulevalue('moduledisplayname')." v".customcontexts_getmodulevalue('moduleversion')), 'http://www.freepbx.org/support/documentation/module-documentation/third-party-unsupported-modules/customcontexts', true, false), 0);
+		$currentcomponent->addguielem('_bottom', new gui_link('bounty', 'Module Going END OF LIFE - Click For Details', 'http://www.freepbx.org/bounties/custom-context', true, false), 0);
 		if (!$extdisplay) {
 			$currentcomponent->addguielem('_top', new gui_pageheading('title', _("Add Context"), false), 0);
 			$currentcomponent->addguielem('Context', new gui_textbox('extdisplay', '', 'Context', $info, 'isWhitespace() || !isFilename()', $contexterr, false), 3);
@@ -649,7 +650,8 @@ global $currentcomponent;
 		$delURL = $_SERVER['PHP_SELF'].'?'.$query.'&action=del';
 		$dupURL = $_SERVER['PHP_SELF'].'?'.$query.'&action=dup';
 		$info = 'The custom context to make will be available in your dialplan. These contexts can be used as a context for a device/extension to allow them limited access to your dialplan.';
-		$currentcomponent->addguielem('_bottom', new gui_link('ver', _(customcontexts_getmodulevalue('moduledisplayname')." v".customcontexts_getmodulevalue('moduleversion')), 'http://aussievoip.com.au/wiki/freePBX-CustomContexts', true, false), 0);
+		$currentcomponent->addguielem('_bottom', new gui_link('ver', _(customcontexts_getmodulevalue('moduledisplayname')." v".customcontexts_getmodulevalue('moduleversion')), 'http://www.freepbx.org/support/documentation/module-documentation/third-party-unsupported-modules/customcontexts', true, false), 0);
+		$currentcomponent->addguielem('_bottom', new gui_link('bounty', 'Module Going END OF LIFE - Click For Details', 'http://www.freepbx.org/bounties/custom-context', true, false), 0);
 		if (!$extdisplay) {
 			$currentcomponent->addguielem('_top', new gui_pageheading('title', _("Add Context"), false), 0);
 			$currentcomponent->addguielem('Context', new gui_textbox('extdisplay', '', 'Context', $info, 'isWhitespace() || !isFilename()', $contexterr, false), 3);
@@ -902,7 +904,8 @@ global $currentcomponent;
 		$query = ($_SERVER['QUERY_STRING'])?$_SERVER['QUERY_STRING']:'type=setup&display=customcontextstimes&extdisplay='.$extdisplay;
 		$delURL = $_SERVER['PHP_SELF'].'?'.$query.'&action=del';
 		$info = '';
-		$currentcomponent->addguielem('_bottom', new gui_link('del', _(customcontexts_getmodulevalue('moduledisplayname')." v".customcontexts_getmodulevalue('moduleversion')), 'http://aussievoip.com.au/wiki/freePBX-CustomContexts', true, false), 0);
+		$currentcomponent->addguielem('_bottom', new gui_link('ver', _(customcontexts_getmodulevalue('moduledisplayname')." v".customcontexts_getmodulevalue('moduleversion')), 'http://www.freepbx.org/support/documentation/module-documentation/third-party-unsupported-modules/customcontexts', true, false), 0);
+		$currentcomponent->addguielem('_bottom', new gui_link('bounty', 'Module Going END OF LIFE - Click For Details', 'http://www.freepbx.org/bounties/custom-context', true, false), 0);
 		if (!$extdisplay) {
 			$currentcomponent->addguielem('_top', new gui_pageheading('title', _("Add Time Group"), false), 0);
 			$currentcomponent->addguielem('Time Group', new gui_textbox('description', '', 'Description', 'This will display as the name of this Time Group.', '!isAlphanumeric() || isWhitespace()', $descerr, false), 3);

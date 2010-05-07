@@ -17,8 +17,6 @@
 <?php
 customcontexts_updatedb();
 
-
-
 //bring db up to date on install/upgrade
 function customcontexts_updatedb() {
 	global $db;
@@ -40,7 +38,14 @@ function customcontexts_updatedb() {
 	$db->query($sql);
 }
 
-
+$modinfo = module_getinfo('customcontexts');
+if (is_array($modinfo)) {
+	$ver = $modinfo['customcontexts']['dbversion'];
+	if (version_compare($ver,'0.3.6','le')) {
+    global $db;
+    $notifications =& notifications::create($db); 
+    $extext = _("The Custom Context 3rd Party module will not be supported in FreePBX version 2.8 or beyond without your financial support. If this module is critical to you or your business, please refer to the following URL to assure it does not go End of Life:<br />http://www.freepbx.org/bounties/custom-context");
+    $notifications->add_notice('customcontexts', 'EOL', ('Custom Context END OF LIFE Warning'), $extext, '', true, true);
+  }
+}
 ?>
-
-
