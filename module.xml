@@ -1,7 +1,7 @@
 <module>
 	<rawname>customcontexts</rawname>
 	<name>Custom Contexts</name>
-	<version>0.3.6</version>
+	<version>2.8.0.1</version>
 	<type>setup</type>
 	<category>Third Party Addon</category>
 	<description>
@@ -19,10 +19,11 @@
 		<customcontextstimes>Custom Contexts Times</customcontextstimes>
 	</menuitems>
         <depends>
-					<version>lt 2.8.0alpha1</version>
+					<version>ge 2.8.0alpha1</version>
 					<module>core</module>
         </depends>
         <changelog>
+								*2.8.0.1* remove End of Life warning, change dependency requirement, fix for FreePBX 2.8
 								*0.3.6* fix version, End of Life warning, dependency requirement
 								*0.3.5* #3994 current context on extension page not sticking
 								*0.3.4* see http://freepbx.org/forum/freepbx/users/custom-contexts-broken-in-freepbx-2-3-1-3
@@ -55,6 +56,6 @@
 		If you experience problems with it, just disable it and no harm done.
 		REMEMBER! Any device placed in a restricted context will have no access to the dialplan if this module is disabled until it is placed in a normal context!
 	</attention>
-	<location>contributed_modules/release/customcontexts-0.3.6.tgz</location>
-	<md5sum>d1c83f26c53eb3dfbf5d83263155e3eb</md5sum>
+	<location>contributed_modules/release/customcontexts-2.8.0.1.tgz</location>
+	<md5sum></md5sum>
 </module>
