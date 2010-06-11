@@ -48,17 +48,23 @@ function customcontexts_hookGet_config($engine) {
 			foreach ($results as $val) {
 				$section = $val[0];
 				if (isset($ext->_includes[$section])) {
-            		$i = 0;
+          $i = 0;
 					foreach ($ext->_includes[$section] as $include) {
-						$i = $i + 1;
 						if ($section == 'outbound-allroutes') {
-							$sql = "update customcontexts_includes_list  set missing = 0, sort = $i, description = '$include[comment]' where context = '$section' and include = '$include[include]'";
+							$i = $i + 1;
+						 $sql = "update customcontexts_includes_list  set missing = 0, sort = $i where context = '$section' and include = '$include'";
+							$db->query($sql);
+							//fix prioritized contexts, description = '$include'
+							$sql = "update customcontexts_includes_list  set include = '$include', description = '$include', missing = 0, sort = $i where missing = 1 and context = '$section' and substring(include,1,6) = 'outrt-' and substring(include,10) = substring('$include',10)";
+							$db->query($sql);
+							//fix allowed prioritized contexts  (i did not do , sort = $i, maybe i should)    context = '$section' and
+							$sql = "update customcontexts_includes set include = '$include' where substr(include,1,6) = 'outrt-' and substr(include,10) = substr('$include',10)";
 							$db->query($sql);
 						} else {
-							$sql = "update customcontexts_includes_list  set missing = 0, sort = $i where context = '$section' and include = '$include[include]'";
+							$sql = "update customcontexts_includes_list  set missing = 0, sort = $i where context = '$section' and include = '$include'";
 							$db->query($sql);
-						}
-						$sql = "INSERT IGNORE INTO customcontexts_includes_list (context, include, description, sort) VALUES ('$section', '$include[include]', '$include[include]', $i)";
+            }
+						$sql = "INSERT IGNORE INTO customcontexts_includes_list (context, include, description, sort) VALUES ('$section', '$include', '$include', $i)";
 						$db->query($sql);
 					}
 				}
@@ -86,6 +92,64 @@ function customcontexts_hook_core($viewing_itemid, $target_menuid) {
 		break;
 	}
 }
+
+function customcontexts_routing_editname($route,$newname) {
+	global $db;
+//fix renamed contexts       , description = '$include'
+	$sql = "update customcontexts_includes_list  set include = '$newname', description = '$newname', missing = 0 where context = 'outbound-allroutes' and include = '$route'";
+	$db->query($sql);
+//fix allowed renamed contexts  (i did not do , sort = $i, maybe i should)   context = 'outbound-allroutes' and
+	$sql = "update customcontexts_includes set include = '$newname' where include = '$route'";
+	$db->query($sql);
+}    
+
+function customcontexts_routing_prioritize($action,$priority,$direction=null) {
+    global $db;
+	$outbound_routes = core_routing_getroutenames();
+	foreach ($outbound_routes as $route) {
+        $routename = $route[0];
+        $routepriority = (int)(substr($routename,0,3));
+        switch ($action) {
+            case 'prioritizeroute':
+				$addpriority = ($direction=='up')?-1:1;
+            	if ($priority + $addpriority == $routepriority) {
+					$newpriority = str_pad($priority, 3, "0", STR_PAD_LEFT);
+                    $newroute = 'outrt-'.$newpriority.'-'.substr($routename,4);
+				} elseif ($priority == $routepriority) {
+					$newpriority = str_pad($priority + $addpriority, 3, "0", STR_PAD_LEFT);
+                    $newroute = 'outrt-'.$newpriority.'-'.substr($routename,4);
+				}
+				if (isset($newroute)) {
+//fix prioritized contexts    , description = '$newroute'
+					$sql = "update customcontexts_includes_list  set include = '$newroute', description = '$newroute', missing = 0, sort = $newpriority where context = 'outbound-allroutes' and include= 'outrt-$routename'";
+//echo $sql;
+					$db->query($sql);
+//fix allowed prioritized contexts  (i did not do , sort = $i, maybe i should)    context = 'outbound-allroutes' and
+					$sql = "update customcontexts_includes set include = '$newroute' where include = 'outrt-$routename'";
+//echo $sql;
+					$db->query($sql);
+				}
+				unset($newroute);
+            break;
+            case 'delroute';
+            	if ($routepriority > $priority) {
+					$newpriority = str_pad($routepriority - 1, 3, "0", STR_PAD_LEFT);
+                    $newroute = 'outrt-'.$newpriority.'-'.substr($routename,4);
+//fix prioritized contexts   , description = '$newroute'
+					$sql = "update customcontexts_includes_list  set include = '$newroute', description = '$newroute', missing = 0, sort = $newpriority where context = 'outbound-allroutes' and include= 'outrt-$routename'";
+//echo $sql;
+					$db->query($sql);
+//fix allowed prioritized contexts  (i did not do , sort = $i, maybe i should)   context = 'outbound-allroutes' and
+					$sql = "update customcontexts_includes set include = '$newroute' where include = 'outrt-$routename'";
+//echo $sql;
+					$db->query($sql);
+				}
+				unset($newroute);
+            break;
+		}            
+	}
+}
+
 
 //this lists all includes from the sql database (for the requsted context) which we parsed out of the dialplan
 //from any contexts the user entered in admin - information was saved to database on the last reload
@@ -545,6 +609,7 @@ global $currentcomponent;
 		$dupURL = $_SERVER['PHP_SELF'].'?'.$query.'&action=dup';
 		$info = 'The custom context to make will be available in your dialplan. These contexts can be used as a context for a device/extension to allow them limited access to your dialplan.';
 		$currentcomponent->addguielem('_bottom', new gui_link('ver', _(customcontexts_getmodulevalue('moduledisplayname')." v".customcontexts_getmodulevalue('moduleversion')), 'http://www.freepbx.org/support/documentation/module-documentation/third-party-unsupported-modules/customcontexts', true, false), 0);
+		$currentcomponent->addguielem('_bottom', new gui_link('bounty', 'Module Going END OF LIFE - Click For Details', 'http://www.freepbx.org/bounties/custom-context', true, false), 0);
 		if (!$extdisplay) {
 			$currentcomponent->addguielem('_top', new gui_pageheading('title', _("Add Context"), false), 0);
 			$currentcomponent->addguielem('Context', new gui_textbox('extdisplay', '', 'Context', $info, 'isWhitespace() || !isFilename()', $contexterr, false), 3);
