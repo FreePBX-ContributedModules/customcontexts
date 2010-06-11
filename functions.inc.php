@@ -48,22 +48,22 @@ function customcontexts_hookGet_config($engine) {
 			foreach ($results as $val) {
 				$section = $val[0];
 				if (isset($ext->_includes[$section])) {
-          $i = 0;
+            		$i = 0;
 					foreach ($ext->_includes[$section] as $include) {
 						if ($section == 'outbound-allroutes') {
 							$i = $i + 1;
-						 $sql = "update customcontexts_includes_list  set missing = 0, sort = $i where context = '$section' and include = '$include'";
+							$sql = "update customcontexts_includes_list  set missing = 0, sort = $i where context = '$section' and include = '$include'";
 							$db->query($sql);
-							//fix prioritized contexts, description = '$include'
+//fix prioritized contexts       , description = '$include'
 							$sql = "update customcontexts_includes_list  set include = '$include', description = '$include', missing = 0, sort = $i where missing = 1 and context = '$section' and substring(include,1,6) = 'outrt-' and substring(include,10) = substring('$include',10)";
 							$db->query($sql);
-							//fix allowed prioritized contexts  (i did not do , sort = $i, maybe i should)    context = '$section' and
+//fix allowed prioritized contexts  (i did not do , sort = $i, maybe i should)    context = '$section' and
 							$sql = "update customcontexts_includes set include = '$include' where substr(include,1,6) = 'outrt-' and substr(include,10) = substr('$include',10)";
 							$db->query($sql);
 						} else {
 							$sql = "update customcontexts_includes_list  set missing = 0, sort = $i where context = '$section' and include = '$include'";
 							$db->query($sql);
-            }
+                        }
 						$sql = "INSERT IGNORE INTO customcontexts_includes_list (context, include, description, sort) VALUES ('$section', '$include', '$include', $i)";
 						$db->query($sql);
 					}
@@ -89,6 +89,47 @@ function customcontexts_hook_core($viewing_itemid, $target_menuid) {
 		break;
 		default:
 				return false;
+		break;
+	}
+}
+
+//this is to catch any rename reorder or delete route, so i can fix custom contexts
+function customcontexts_hookProcess_core($viewing_itemid, $request) {
+	switch ($request['display']) {
+        case 'routing':
+			if(isset($request['Submit'])) {
+//				$route = substr($viewing_itemid,4);
+//				$priority = (int)(substr($viewing_itemid,0,3));
+			} 
+			switch ($request['action']) {
+				case 'delroute':
+//					$route = substr($viewing_itemid,4);
+					$priority = (int)(substr($viewing_itemid,0,3));
+					customcontexts_routing_prioritize($request['action'],$priority);
+				break;
+				case 'prioritizeroute':
+					$fullroute = $viewing_itemid;
+					if (isset($request['reporoutekey'])) {
+              			$outbound_routes = core_routing_getroutenames();
+						$fullroute = $outbound_routes[(int)$request['reporoutekey']][0];
+	           		}
+//					$route = substr($fullroute,4);
+					$priority = (int)(substr($fullroute,0,3));
+					$direction = $request['reporoutedirection'];
+					customcontexts_routing_prioritize($request['action'],$priority,$direction);
+				break;
+				case 'renameroute';
+					$newname = $request['newroutename'];
+					$route = $viewing_itemid;
+					$priority = (substr($viewing_itemid,0,3));
+                    $fullnewname = 'outrt-'.$priority.'-'.$newname;
+                    $fullroutename = 'outrt-'.$route;
+					customcontexts_routing_editname($fullroutename,$fullnewname);
+				break;
+				default:
+		
+				break;
+			}
 		break;
 	}
 }
@@ -446,6 +487,7 @@ global $currentcomponent;
 		$info = 'The context which contains includes which you would like to make available to '.customcontexts_getmodulevalue('moduledisplayname').'. Any context you enter here will be parsed for includes and you can then include them in your own '.customcontexts_getmodulevalue('moduledisplayname').'. Removing them here does NOT delete the context, rather makes them unavailable to your '.customcontexts_getmodulevalue('moduledisplayname').'.';
 	       $currentcomponent->addguielem('_top', new gui_hidden('action', ($extdisplay ? 'edit' : 'add')));
 		$currentcomponent->addguielem('_bottom', new gui_link('help', _(customcontexts_getmodulevalue('moduledisplayname')." v".customcontexts_getmodulevalue('moduleversion')), 'http://www.freepbx.org/support/documentation/module-documentation/third-party-unsupported-modules/customcontexts', true, false), 0);
+		$currentcomponent->addguielem('_bottom', new gui_link('bounty', 'Module Going END OF LIFE - Click For Details', 'http://www.freepbx.org/bounties/custom-context', true, false), 0);
 		if (!$extdisplay) {
 			$currentcomponent->addguielem('_top', new gui_pageheading('title', _("Add Context"), false), 0);
 			$currentcomponent->addguielem('Context', new gui_textbox('extdisplay', '', 'Context', $info, 'isWhitespace() || !isFilename()', $contexterr, false), 3);
@@ -863,6 +905,7 @@ global $currentcomponent;
 		$delURL = $_SERVER['PHP_SELF'].'?'.$query.'&action=del';
 		$info = '';
 		$currentcomponent->addguielem('_bottom', new gui_link('ver', _(customcontexts_getmodulevalue('moduledisplayname')." v".customcontexts_getmodulevalue('moduleversion')), 'http://www.freepbx.org/support/documentation/module-documentation/third-party-unsupported-modules/customcontexts', true, false), 0);
+		$currentcomponent->addguielem('_bottom', new gui_link('bounty', 'Module Going END OF LIFE - Click For Details', 'http://www.freepbx.org/bounties/custom-context', true, false), 0);
 		if (!$extdisplay) {
 			$currentcomponent->addguielem('_top', new gui_pageheading('title', _("Add Time Group"), false), 0);
 			$currentcomponent->addguielem('Time Group', new gui_textbox('description', '', 'Description', 'This will display as the name of this Time Group.', '!isAlphanumeric() || isWhitespace()', $descerr, false), 3);
