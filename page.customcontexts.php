@@ -11,7 +11,6 @@
 //GNU General Public License for more details.
 
 $dispnum = 'customcontexts'; //used for switch on config.php
-
 ?>
 
 
