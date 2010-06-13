@@ -9,17 +9,6 @@
 //but WITHOUT ANY WARRANTY; without even the implied warranty of
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
-
-$sql[] = "DROP TABLE IF EXISTS `customcontexts_contexts`";
-$sql[] = "DROP TABLE IF EXISTS `customcontexts_contexts_list`";
-$sql[] = "DROP TABLE IF EXISTS `customcontexts_includes`";
-$sql[] = "DROP TABLE IF EXISTS `customcontexts_includes_list`";
-$sql[] = "DROP TABLE IF EXISTS `customcontexts_module`";
-$sql[] = "DROP TABLE IF EXISTS `customcontexts_timegroups`";
-$sql[] = "DROP TABLE IF EXISTS `customcontexts_timegroups_detail`";
-foreach ($sql as $q){
-	$db->query($sql);
-}
 ?>
 <font color="red"><strong>You have uninstalled the Custom Contexts Module!<BR>
 	Remember to place all of your devices into local contexts or they will not have dialplan access!</strong></font><BR>
