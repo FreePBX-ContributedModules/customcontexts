@@ -17,7 +17,7 @@
 					<module>core</module>
         </depends>
         <changelog>
-					*2.8.0beta1.0* migration and changes to support 2.8
+					*2.8.0beta1.0* #4335 migration and changes to support 2.8
 					*0.3.7* remove EOL warnings
 					*0.3.6* fix version, End of Life warning, dependency requirement
 					*0.3.5* #3994 current context on extension page not sticking

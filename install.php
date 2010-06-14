@@ -9,13 +9,6 @@
 //but WITHOUT ANY WARRANTY; without even the implied warranty of
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
-?>
-<!--
-<font color="red"><strong>You have installed the Custom Contexts Module!<BR>
-	</strong></font><BR>
--->
-<?php
-
 global $db;
 global $amp_conf;
 
@@ -75,8 +68,8 @@ $sql[] ="ALTER IGNORE TABLE `customcontexts_includes_list` ADD `missing` BOOL NO
 
 
 $sql[] ="INSERT IGNORE INTO `customcontexts_includes_list` (`context`, `include`, `description`) VALUES ('from-internal', 'parkedcalls', 'Call Parking'),
-('from-internal', 'from-internal-custom', 'Custom Internal Dialplan'),
-('from-internal', 'ext-fax', 'Fax')";
+				('from-internal', 'from-internal-custom', 'Custom Internal Dialplan'),
+				('from-internal', 'ext-fax', 'Fax')";
 
 $sql[] ="INSERT IGNORE INTO `customcontexts_includes_list` (`context`, `include`, `description`) VALUES ('from-internal-additional', 'outbound-allroutes', 'ALL OUTBOUND ROUTES'),
 ('from-internal', 'from-internal-additional', 'ENTIRE Basic Internal Dialplan')";
@@ -111,7 +104,7 @@ $sql[] ="CREATE TABLE IF NOT EXISTS `customcontexts_timegroups_detail` (
 ) AUTO_INCREMENT=20";
 
 foreach ($sql as $q){
-	$db->query($sql);
+	$db->query($q);
 }
 
 customcontexts_updatedb();
@@ -138,69 +131,67 @@ function customcontexts_updatedb() {
 }
 
 outn(_("checking if migration required..."));
-$modinfo = module_getinfo('customcontexts');
-if (is_array($modinfo)) {
-	$ver = $modinfo['customcontexts']['dbversion'];
-	if (version_compare($ver,'0.3.6','le')) {
-			outn(_("migrating.."));
-		  /* We need to now migrate from from the old format of dispname_id where the only supported dispname
-		     so far has been "routing" and the "id" used was the imperfect nnn-name. As it truns out, it was
-		     possible to have the same route name perfiously so we will try to detect that. This was really ugly
-		     so if we can't find stuff we will simply report errors and let the user go back and fix things.
-		   */
-		  $sql = "SELECT * FROM customcontexts_includes_list WHERE context = 'outbound-allroutes'";
-		  $includes = $db->getAll($sql, DB_FETCHMODE_ASSOC);
-		  if(DB::IsError($result) || !isset($includes)) { 
-		    out(_("Unknown error fetching table data or no data to migrate"));
-		    out(_("Migration aborted"));
-		  } else {
-		    /* If there are any rows then lets get our route information. We will force this module to depend on
-		     * the new core, so we can count on the APIs being available. If there are indentical names, then
-		     * oh well...
-		     */
-		    $routes = core_routing_list();
-		    $newincludes = array();
-		    foreach ($includes as $myinclude) {
-		    	$include = explode('-',$myinclude['include'],3);
-		    	$include[1] = (int)$include[1];
-		    	
-		    	foreach ($routes as $route) {
-		    		//if we have a trunk with the same name or the same number mathc it and take it out of the list
-						if ($include[2] == $route['name'] || $include[1] == $route['route_id']){
-							$newincludes[] = array('new' => 'outrt-'.$route['route_id'], 
+$ver = modules_getversion('customcontexts');
+if ($ver !== null && version_compare($ver, "2.8.0beta1.0", "<")) {
+		outn(_("migrating.."));
+	  /* We need to now migrate from from the old format of dispname_id where the only supported dispname
+	     so far has been "routing" and the "id" used was the imperfect nnn-name. As it truns out, it was
+	     possible to have the same route name perfiously so we will try to detect that. This was really ugly
+	     so if we can't find stuff we will simply report errors and let the user go back and fix things.
+	   */
+	  $sql = "SELECT * FROM customcontexts_includes_list WHERE context = 'outbound-allroutes'";
+	  $includes = $db->getAll($sql, DB_FETCHMODE_ASSOC);
+	  if(DB::IsError($result) || !isset($includes)) { 
+	    out(_("Unknown error fetching table data or no data to migrate"));
+	    out(_("Migration aborted"));
+	  } else {
+	    /* 
+			 * If there are any rows then lets get our route information. We will force this module to depend on
+	     * the new core, so we can count on the APIs being available. If there are indentical names, then
+	     * oh well...
+	     */
+	    $routes = core_routing_list();
+	    $newincludes = array();
+	    foreach ($includes as $myinclude) {
+	    	$include = explode('-',$myinclude['include'],3);
+	    	$include[1] = (int)$include[1];
+	    	
+	    	foreach ($routes as $route) {
+	    		//if we have a trunk with the same name or the same number mathc it and take it out of the list
+					if ($include[2] == $route['name'] || $include[1] == $route['route_id']){
+						$newincludes[] = array('new' => 'outrt-'.$route['route_id'], 
 																	'sort' => $route['seq'], 'old' => $include);
-							unset($includes[$myinclude]);
-						} 
-					}	
+						unset($includes[$myinclude]);
+					} 
+				}	
+	    }
+
+			//alert user of unmigrated routes
+			foreach ($includes as $include) {
+        out(_('FAILED to migrating route '.$include['description'].'. NO MATCH FOUND'));
+        outn(_("Continuing..."));
+      }
+
+	    // We new have all the indices, so lets save them
+	    //
+	    $sql = $db->prepare('UPDATE customcontexts_includes_list SET include = ?, sort = ? WHERE include = ?');
+	    $result = $db->executeMultiple($sql,$newincludes);
+	    if(DB::IsError($result)) {
+	      out("FATAL: ".$result->getDebugInfo()."\n".'error updating customcontexts_includes_list table. Aborting!');	
+	    } else {
+		    //now update the next table
+		    foreach ($newincludes as $newinclude){ 
+		    	unset($newincludes[$newinclude]['sort']);
 		    }
-
-				//alert user of unmigrated routes
-				foreach ($includes as $include) {
-	        out(_('FAILED to migrating route '.$include['description'].'. NO MATCH FOUND'));
-	        outn(_("continuing..."));
-	      }
-
-		    // We new have all the indices, so lets save them
-		    //
-		    $sql = $db->prepare('UPDATE customcontexts_includes_list SET include = ?, sort = ? WHERE include = ?');
-		    //$result = $db->executeMultiple($sql,$newincludes);
+		    $sql = $db->prepare('UPDATE customcontexts_includes SET include = ?, WHERE include = ?');
+		    $result = $db->executeMultiple($sql,$newincludes);
 		    if(DB::IsError($result)) {
-		      out("FATAL: ".$result->getDebugInfo()."\n".'error updating customcontexts_includes_list table. Aborting!');	
+		      out("FATAL: ".$result->getDebugInfo()."\n".'error updating customcontexts_includes table. Aborting!');	
 		    } else {
-			    //now update the next table
-			    foreach ($newincludes as $newinclude){ 
-			    	unset($newincludes[$newinclude]['sort']);
-			    }
-			    $sql = $db->prepare('UPDATE customcontexts_includes SET include = ?, WHERE include = ?');
-			    //$result = $db->executeMultiple($sql,$newincludes);
-			    if(DB::IsError($result)) {
-			      out("FATAL: ".$result->getDebugInfo()."\n".'error updating customcontexts_includes table. Aborting!');	
-			    } else {
-			    out(_("done"));			    
-			  }
+		    out(_("done"));			    
 		  }
-		}
-  }
+	  }
+	}
 }
 
 

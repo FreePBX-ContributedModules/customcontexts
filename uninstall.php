@@ -18,16 +18,11 @@ $sql[] = "DROP TABLE IF EXISTS `customcontexts_module`";
 $sql[] = "DROP TABLE IF EXISTS `customcontexts_timegroups`";
 $sql[] = "DROP TABLE IF EXISTS `customcontexts_timegroups_detail`";
 foreach ($sql as $q){
-	$db->query($sql);
+	$db->query($q);
 }
 ?>
 <font color="red"><strong>You have uninstalled the Custom Contexts Module!<BR>
 	Remember to place all of your devices into local contexts or they will not have dialplan access!</strong></font><BR>
-<!--
-<script>
-alert ("You have uninstalled the Custom Contexts Module! \nRemember to place all of your devices into local contexts or they will not have dialplan access!")
-</script>
--->
-
+?>
 
 
