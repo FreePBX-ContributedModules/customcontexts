@@ -10,13 +10,13 @@
 	<menuitems>
 		<customcontexts>Custom Contexts</customcontexts>
 		<customcontextsadmin type="tool" category="System Administration">Custom Contexts Admin</customcontextsadmin>
-		<customcontextstimes>Custom Contexts Times</customcontextstimes>
 	</menuitems>
         <depends>
 					<version> 2.8.0alpha1</version>
 					<module>core</module>
         </depends>
         <changelog>
+					*2.8.0beta1.2* #4335 Fix migration, remove time conditions stuff
 					*2.8.0beta1.1* #4335
 					*2.8.0beta1.0* #4335 migration and changes to support 2.8
 					*0.3.7* remove EOL warnings
@@ -36,11 +36,11 @@
 					*0.0.1* Beta release
         </changelog>
 	<attention>
-		This is an advanced module, and you should not use it without understanding asterisk dialplans!
-		This is meant as a convenience tool for someone who would have had to resort to config editing.
-		If you experience problems with it, just disable it and no harm done.
-		REMEMBER! Any device placed in a restricted context will have no access to the dialplan if this module is disabled until it is placed in a normal context!
+		This is an advanced module, and you should not use it without understanding asterisk dialplans! This is meant as a convenience tool for someone who would have had to resort to config editing. If you experience problems with it, just disable it and no harm done. REMEMBER! Any device placed in a restricted context will have no access to the dialplan if this module is disabled until it is placed in a normal context!
 	</attention>
+	<depends>
+		<module>timeconditions</module>
+	</depends>
 	<location>contributed_modules/release/customcontexts-2.8.0beta1.1.tgz</location>
 	<md5sum>434930422e7ae039c216687d5be8ca5a</md5sum>
 </module>
