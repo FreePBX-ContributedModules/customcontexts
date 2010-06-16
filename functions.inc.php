@@ -328,52 +328,72 @@ function customcontexts_destinations() {
 
 //brute force hoook to devices and extensions pages to inform the user that they can place these devices in their custom contexts
 function customcontexts_configpageinit($dispnum) {
-global $currentcomponent;
+
+  global $currentcomponent;
+  $extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:null;
+  if ($extdisplay == '') {
+    return true;
+  }
+
+  if ($dispnum == 'devices' || $dispnum == 'extensions') {
+    $device_info = core_devices_get($extdisplay);
+    if (empty($device_info)) {
+        return true;
+    } else {
+      $tech = $device_info['tech'];
+      switch ($tech) {
+        case 'iax2':
+        case 'iax':
+        case 'sip':
+        case 'dahdi':
+        case 'zap':
+          $_REQUEST['tech'] = $tech;
+          $_REQUEST['customcontext'] = $device_info['context'];
+        break;
+        default:
+          return true;
+      }
+    }
+  } else {
+    return true;
+  }
+
+	$contextssel  = customcontexts_getcontexts();
+	$currentcomponent->addoptlistitem('contextssel', 'from-internal', 'ALLOW ALL (Default)');
+	foreach ($contextssel as $val) {
+		$currentcomponent->addoptlistitem('contextssel', $val[0], $val[1]);
+	}
+	$currentcomponent->setoptlistopts('contextssel', 'sort', false);
+
 	switch ($dispnum) {
 		case 'devices':
-			$extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:null;
-			if ($extdisplay != '') {
-			$contextssel  = customcontexts_getcontexts();
-			$currentcomponent->addoptlistitem('contextssel', 'from-internal', 'ALLOW ALL (Default)');
-			foreach ($contextssel as $val) {
-				$currentcomponent->addoptlistitem('contextssel', $val[0], $val[1]);
-			}
-			$currentcomponent->setoptlistopts('contextssel', 'sort', false);
 			$currentcomponent->addguifunc('customcontexts_devices_configpageload');
-			}
 		break;
 		case 'extensions':
-			$extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:null;
-			if ($extdisplay != '') {
-			$contextssel  = customcontexts_getcontexts();
-			$currentcomponent->addoptlistitem('contextssel', 'from-internal', 'ALLOW ALL (Default)');
-			foreach ($contextssel as $val) {
-				$currentcomponent->addoptlistitem('contextssel', $val[0], $val[1]);
-			}
-			$currentcomponent->setoptlistopts('contextssel', 'sort', false);
-			$currentcomponent->addguifunc('customcontexts_extensions_configpageload');
-			}
+		  $currentcomponent->addguifunc('customcontexts_extensions_configpageload');
 		break;
 	}
 }
 
 //hook gui function
 function customcontexts_devices_configpageload() {
-global $currentcomponent;
-	//should get current context if possible
+  global $currentcomponent;
+
 	$extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:null;
-	$query="SELECT `data` FROM `sip` WHERE `keyword`='context' AND `id`='".$extdisplay."'";
-	$curcontext = mysql_result(mysql_query($query), 0);
+  $tech = $_REQUEST['tech'];
+  $curcontext = $_REQUEST['customcontext'];
+
 	$currentcomponent->addguielem('Device Options', new gui_selectbox('customcontext', $currentcomponent->getoptlist('contextssel'), $curcontext, 'Custom Context', 'You have the '.customcontexts_getmodulevalue('moduledisplayname').' Module installed! You can select a custom context from this list to limit this user to portions of the dialplan you defined in the '.customcontexts_getmodulevalue('moduledisplayname').' module.',true, "javascript:if (document.frm_devices.customcontext.value) {document.frm_devices.devinfo_context.value = document.frm_devices.customcontext.value} else {document.frm_devices.devinfo_context.value = 'from-internal'}"));
 }
 
 //hook gui function
 function customcontexts_extensions_configpageload() {
-global $currentcomponent;
-	//should get current context if possible
+  global $currentcomponent;
+
 	$extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:null;
-	$query="SELECT `data` FROM `sip` WHERE `keyword`='context' AND `id`='".$extdisplay."'";
-	$curcontext = mysql_result(mysql_query($query), 0);
+  $tech = $_REQUEST['tech'];
+  $curcontext = $_REQUEST['customcontext'];
+
 	$currentcomponent->addguielem('Device Options', new gui_selectbox('customcontext', $currentcomponent->getoptlist('contextssel'), $curcontext, 'Custom Context', 'You have the '.customcontexts_getmodulevalue('moduledisplayname').' Module installed! You can select a custom context from this list to limit this user to portions of the dialplan you defined in the '.customcontexts_getmodulevalue('moduledisplayname').' module.',true, "javascript:if (document.frm_extensions.customcontext.value) {document.frm_extensions.devinfo_context.value = document.frm_extensions.customcontext.value} else {document.frm_extensions.devinfo_context.value = 'from-internal'}"));
 }
 
@@ -805,5 +825,44 @@ function customcontexts_timegroups_usage($group_id) {
     }
     return $usage_arr;
   }
+}
+
+function customcontexts_check_destinations($dest=true) {
+	global $active_modules;
+
+	$destlist = array();
+	if (is_array($dest) && empty($dest)) {
+		return $destlist;
+	}
+	$sql = "SELECT context, description, faildestination, featurefaildestination FROM customcontexts_contexts";
+	if ($dest !== true) {
+		$sql .= " WHERE (faildestination in ('".implode("','",$dest)."') ) OR (featurefaildestination in ('".implode("','",$dest)."') )";
+	}
+	$results = sql($sql,"getAll",DB_FETCHMODE_ASSOC);
+
+	$type = isset($active_modules['customcontexts']['type'])?$active_modules['customcontexts']['type']:'setup';
+
+	foreach ($results as $result) {
+		$thisdest    = $result['faildestination'];
+		$thisid      = $result['context'];
+		$description = sprintf(_("Custom Context: %s (%s)"),$result['description'],$result['context']);
+		$thisurl     = 'config.php?display=customcontexts&extdisplay='.urlencode($thisid);
+		if ($dest === true || $dest = $thisdest) {
+			$destlist[] = array(
+				'dest' => $thisdest,
+				'description' => $description,
+				'edit_url' => $thisurl,
+			);
+		}
+		$thisdest = $result['featurefaildestination'];
+		if ($dest === true || $dest = $thisdest) {
+			$destlist[] = array(
+				'dest' => $thisdest,
+				'description' => $description,
+				'edit_url' => $thisurl,
+			);
+		}
+	}
+	return $destlist;
 }
 ?>
