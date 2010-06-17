@@ -3,15 +3,22 @@
 
 //used to get module information
 function customcontexts_getmodulevalue($id) {
+static $moduledisplayname = null;
+static $moduleversion = null;
 global $db;
 	switch ($id) {
 	  case 'moduledisplayname':
-	    $module_info = module_getinfo('customcontexts');
-	    return($module_info['customcontexts']['name']);
+      if ($moduledisplayname === null) {
+	      $module_info = module_getinfo('customcontexts');
+	      $moduledisplayname = $module_info['customcontexts']['name'];
+      }
+      return $moduledisplayname;
 	    break;
 	  case 'moduleversion':
-	    $module_info = module_getinfo('customcontexts');
-	    return($module_info['customcontexts']['version']);
+      if ($moduleversion === null) {
+        $moduleversion = modules_getversion('customcontexts');
+      }
+      return $moduleversion;
 	    break;
 	  default:
 		$sql = "select value from customcontexts_module where id = '$id'";
