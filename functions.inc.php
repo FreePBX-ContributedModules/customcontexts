@@ -163,8 +163,10 @@ function customcontexts_getincludes($context) {
 						IF(saved.timegroupid is null, 'yes', saved.timegroupid)), 
 					saved.sort,  
 					customcontexts_contexts_list.description
-					ORDER BY customcontexts_contexts_list.description, 
+					ORDER BY 
 					IF(saved.sort is null,101,saved.sort), 
+					customcontexts_includes_list.sort,
+					customcontexts_contexts_list.description, 
 					customcontexts_includes_list.description";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
@@ -267,7 +269,6 @@ function customcontexts_get_config($engine) {
 			$results2 = null;
 		}
 		foreach ($results2 as $inc) {
-		dbug('$results2',$inc);
 			$time = isset($inc[1])?'|'.$inc[1]:'';
 			switch ($inc[2]) {
 				case 'allowmatch':

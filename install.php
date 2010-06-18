@@ -155,7 +155,7 @@ if ($ver !== null && version_compare($ver, "2.8.0beta1.0", "<")) {
 				$include = explode('-',$myinclude['include'],3);
 				$include[1] = (int)$include[1];
 				foreach ($routes as $rt => $route) {
-					//if we have a trunk with the same name or the same number matchit and take it out of the list
+					//if we have a trunk with the same name match it and take it out of the list
 					if ($include[2] == $route['name']){
 						$newincludes[] = array('new' => 'outrt-'.$route['route_id'], 
 																	'sort' => $route['seq'], 'old' => $myinclude['include']);
