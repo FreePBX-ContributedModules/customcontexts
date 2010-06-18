@@ -155,6 +155,8 @@ function customcontexts_getincludes($context) {
 					ON customcontexts_includes_list.include = saved.include 
 					LEFT OUTER JOIN customcontexts_contexts_list preemptcheck 
 					ON customcontexts_includes_list.include = preemptcheck.context 
+					LEFT OUTER JOIN  outbound_route_sequence 
+					ON REPLACE(customcontexts_includes_list.include,'outrt-','') = outbound_route_sequence.route_id
 					GROUP BY customcontexts_contexts_list.context, 
 					customcontexts_contexts_list.description, 
 					customcontexts_includes_list.include, 
@@ -164,14 +166,12 @@ function customcontexts_getincludes($context) {
 					saved.sort,  
 					customcontexts_contexts_list.description
 					ORDER BY 
-					IF(saved.sort is null,101,saved.sort), 
+					IF(saved.sort is null,201,saved.sort), 
 					customcontexts_includes_list.sort,
+          outbound_route_sequence.seq,
 					customcontexts_contexts_list.description, 
 					customcontexts_includes_list.description";
-	$results = $db->getAll($sql);
-	if(DB::IsError($results)) {
-		$results = null;
-	}
+	$results = sql($sql,'getAll');
 	foreach ($results as $val){
 		$tmparray[] = array($val[0], $val[1], $val[2], $val[3], $val[4], $val[5], $val[6]);
 	}
@@ -568,7 +568,7 @@ global $currentcomponent;
 				$currentcomponent->addoptlistitem('includeyn', $val[0], $val[1]);
 			}
 			$currentcomponent->setoptlistopts('includeyn', 'sort', false);
-			for($i = 0; $i <= 100; $i++) { 
+			for($i = 0; $i <= 200; $i++) { 
 				$currentcomponent->addoptlistitem('includesort', $i - 50, $i);
 			}
 			$currentcomponent->addguifunc('customcontexts_customcontexts_configpageload');

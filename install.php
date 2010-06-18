@@ -191,6 +191,8 @@ if ($ver !== null && version_compare($ver, "2.8.0beta1.0", "<")) {
 			}
 		}
 	}
+} else {
+  out(_("not needed"));
 }
 $tgs = $db->getAll('SELECT * FROM customcontexts_timegroups',DB_FETCHMODE_ASSOC);
 if(!DB::IsError($tgs)) {
