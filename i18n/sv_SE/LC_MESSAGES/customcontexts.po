@@ -1,0 +1,87 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Custom Context Swedish Language\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-06-19 11:40+0200\n"
+"PO-Revision-Date: 2010-06-19 11:41:+0200\n"
+"Last-Translator: Mikael Carlsson <mickecamino@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Context"
+msgstr ""
+
+msgid " v"
+msgstr ""
+
+msgid "Add Context"
+msgstr ""
+
+msgid "Edit Context"
+msgstr ""
+
+msgid "Remove Context"
+msgstr ""
+
+msgid "Duplicate Context"
+msgstr ""
+
+#, php-format
+msgid "Custom Context: %s"
+msgstr ""
+
+#, php-format
+msgid "Custom Context: %s (%s)"
+msgstr ""
+
+msgid "Time Conditions Module required and not present .. aborting install"
+msgstr ""
+
+msgid "checking if migration required..."
+msgstr ""
+
+msgid "migrating.."
+msgstr ""
+
+msgid "Unknown error fetching table data or no data to migrate"
+msgstr ""
+
+msgid "Migration aborted"
+msgstr ""
+
+msgid "FAILED to migrating route "
+msgstr ""
+
+msgid "description"
+msgstr ""
+
+msgid ". NO MATCH FOUND"
+msgstr ""
+
+msgid "Continuing..."
+msgstr ""
+
+msgid "done! Reload FreePBX to update all settings."
+msgstr ""
+
+msgid "not needed"
+msgstr ""
+
+msgid "migrating customcontexts_timegroups if needed.."
+msgstr ""
+
+msgid "done"
+msgstr ""
+
+msgid ""
+"removing customcontexts_timegroups and customcontexts_tiemgroups_detail "
+"tables.."
+msgstr ""
