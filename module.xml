@@ -44,6 +44,6 @@
 	<depends>
 		<module>timeconditions</module>
 	</depends>
-	<location>contributed_modules/release/customcontexts-2.8.0beta1.4.tgz</location>
-	<md5sum>10c980acec095b8ba07c79f81f9ba00b</md5sum>
+	<location>contributed_modules/release/customcontexts-2.8.0rc1.0.tgz</location>
+	<md5sum>b4eccc4334f7977edbfcfe551c40c536</md5sum>
 </module>
