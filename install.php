@@ -128,74 +128,7 @@ function customcontexts_updatedb() {
 	$sql = "ALTER IGNORE TABLE `customcontexts_includes_list` ADD `sort` INT NOT NULL DEFAULT '0';";
 	$db->query($sql);
 }
-$ver = modules_getversion('customcontexts');
-outn(_("checking if migration required..."));
-if ($ver !== null && version_compare($ver, "2.8.0beta1.0", "<")) {
-		outn(_("migrating.."));
-		/* 
-		 * We need to now migrate from from the old format of dispname_id where the only supported dispname
-		 * so far has been "routing" and the "id" used was the imperfect nnn-name. As it truns out, it was
-		 * possible to have the same route name perfiously so we will try to detect that. This was really ugly
-		 * so if we can't find stuff we will simply report errors and let the user go back and fix things.
-		 */
-		$sql = "SELECT * FROM customcontexts_includes_list WHERE context = 'outbound-allroutes'";
-		$includes = $db->getAll($sql, DB_FETCHMODE_ASSOC);
-		if(DB::IsError($includes) || !isset($includes)) { 
-			out(_("Unknown error fetching table data or no data to migrate"));
-			out(_("Migration aborted"));
-		} elseif (substr_count($includes[0]['include'],'-') == 1) { //check to see if the routes were migrated yet. Kludgy, but it works
-			out(_("Already Migrated!"));
-		} else {
-			/* 
-			 * If there are any rows then lets get our route information. We will force this module to depend on
-			 * the new core, so we can count on the APIs being available. If there are indentical names, then
-			 * oh well...
-			 */
-			$routes = core_routing_list();
-			$newincludes = array();
-			foreach ($includes as $inc => $myinclude) {
-				$include = explode('-',$myinclude['include'],3);
-				$include[1] = (int)$include[1];
-				foreach ($routes as $rt => $route) {
-					//if we have a trunk with the same name match it and take it out of the list
-					if ($include[2] == $route['name']){
-						$newincludes[] = array('new' => 'outrt-'.$route['route_id'], 
-																	'sort' => $route['seq'], 'old' => $myinclude['include']);
-						//unset the routes so we dont search them again
-						unset($includes[$inc]);
-						unset($routes[$rt]);
-					} 
-				}	
-			}
 
-			//alert user of unmigrated routes
-			foreach ($includes as $include) {
-				out(_('FAILED to migrating route '.$include['description'].'. NO MATCH FOUND'));
-				outn(_("Continuing..."));
-			}
-
-			// We new have all the indices, so lets save them
-			$sql = $db->prepare('UPDATE customcontexts_includes_list SET include = ?, sort = ? WHERE include = ?');
-			$result = $db->executeMultiple($sql,$newincludes);
-			if(DB::IsError($result)) {
-				out("FATAL: ".$result->getDebugInfo()."\n".'error updating customcontexts_includes_list table. Aborting!');	
-			} else {
-				//now update the customcontexts_includes table
-				foreach ($newincludes as $inc => $newinclude){ 
-					unset($newincludes[$inc]['sort']);
-			}
-				$sql = $db->prepare('UPDATE customcontexts_includes SET include = ? WHERE include = ?');
-				$result = $db->executeMultiple($sql,$newincludes);
-				if(DB::IsError($result)) {
-					out("FATAL: ".$result->getDebugInfo()."\n".'error updating customcontexts_includes table. Aborting!');	
-				} else {
-				out(_("done! Reload FreePBX to update all settings."));			    
-			}
-		}
-	}
-} else {
-  out(_("not needed"));
-}
 $tgs = $db->getAll('SELECT * FROM customcontexts_timegroups',DB_FETCHMODE_ASSOC);
 if(!DB::IsError($tgs)) {
   outn(_("migrating customcontexts_timegroups if needed.."));			    
