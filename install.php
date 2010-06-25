@@ -143,6 +143,8 @@ if ($ver !== null && version_compare($ver, "2.8.0beta1.0", "<")) {
 		if(DB::IsError($includes) || !isset($includes)) { 
 			out(_("Unknown error fetching table data or no data to migrate"));
 			out(_("Migration aborted"));
+		} elseif (substr_count($includes[0]['include'],'-') == 1) { //check to see if the routes were migrated yet. Kludgy, but it works
+			out(_("Already Migrated!"));
 		} else {
 			/* 
 			 * If there are any rows then lets get our route information. We will force this module to depend on
