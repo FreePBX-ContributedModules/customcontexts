@@ -858,6 +858,10 @@ function customcontexts_check_destinations($dest=true) {
 
 	foreach ($results as $result) {
 		$thisdest    = $result['faildestination'];
+    // blank destinations in custom context are valid
+    if (!$thisdest) {
+      continue;
+    }
 		$thisid      = $result['context'];
 		$description = sprintf(_("Custom Context: %s (%s)"),$result['description'],$result['context']);
 		$thisurl     = 'config.php?display=customcontexts&extdisplay='.urlencode($thisid);
