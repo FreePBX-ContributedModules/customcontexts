@@ -61,8 +61,8 @@ function customcontexts_hookGet_config($engine) {
 							$sql = 'INSERT INTO customcontexts_includes_list 
 											(context, include, description, missing, sort)
 											VALUES ("'.$section.'", "'.$include['include'].'",
-											"'.$include['comment'].'", "0", "'.$i.'") 
-											ON DUPLICATE KEY UPDATE sort = "'.$i.'", missing = "0"';
+											"'.$include['comment'].'", "0", "'.($i+100).'") 
+											ON DUPLICATE KEY UPDATE sort = "'.($i+100).'", missing = "0"';
 							$db->query($sql);
 						} else {
 							$sql = 'UPDATE customcontexts_includes_list SET missing = "0", sort = "'.$i.'" 
@@ -568,7 +568,7 @@ global $currentcomponent;
 				$currentcomponent->addoptlistitem('includeyn', $val[0], $val[1]);
 			}
 			$currentcomponent->setoptlistopts('includeyn', 'sort', false);
-			for($i = 0; $i <= 200; $i++) { 
+			for($i = 0; $i <= 300; $i++) { 
 				$currentcomponent->addoptlistitem('includesort', $i - 50, $i);
 			}
 			$currentcomponent->addguifunc('customcontexts_customcontexts_configpageload');
