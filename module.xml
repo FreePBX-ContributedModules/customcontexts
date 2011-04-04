@@ -17,7 +17,7 @@
 					<module>core</module>
         </depends>
         <changelog>
-					*2.9.0.0* 2.9 version added to repo
+					*2.9.0.0* #4986, 2.9 bump
 					*2.8.0rc1.1* #4384
 					*2.8.0rc1.0* #4369
 					*2.8.0beta1.4* display contexts in order of priorities
@@ -47,6 +47,6 @@
 	<depends>
 		<module>timeconditions</module>
 	</depends>
-	<location>contributed_modules/release/customcontexts-2.8.0rc1.1.tgz</location>
-	<md5sum>c629f30b239b6088e1a09e60c6007894</md5sum>
+	<location>release/2.9/customcontexts-2.9.0.0.tgz</location>
+	<md5sum>1e3637ec0278dafbaef0cefd41fe7c86</md5sum>
 </module>
