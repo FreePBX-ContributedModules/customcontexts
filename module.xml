@@ -3,7 +3,7 @@
 	<repo>unsupported</repo>
 	<name>Custom Contexts</name>
 	<version>2.9.0.0</version>
-	<category>Admin</category>
+	<category>Connectivity</category>
 	<description>
 		Creates custom contexts which can be used to allow limited access to dialplan applications. Allows for time restrictions on any dialplan access. Allows for pattern matching to allow/deny. Allows for failover destinations, and PIN protected failover. This can be very useful for multi-tennant systems. Inbound routing can be done using DID or zap channel routing,	this module allows for selective outbound routing. House/public phones can be placed in a restricted context allowing them only internal calls.
 	</description>
