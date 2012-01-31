@@ -26,6 +26,6 @@
 	<depends>
 		<module>timeconditions</module>
 	</depends>
-	<location>release/2.10/customcontexts-2.10.0.0.tgz</location>
-	<md5sum>0f91239ad8c53ec885b14c6dc2cb2ff1</md5sum>
+	<location>release/2.10/customcontexts-2.10.0.1.tgz</location>
+	<md5sum>b3ae83124c0122cfbddf971d69bb5402</md5sum>
 </module>
