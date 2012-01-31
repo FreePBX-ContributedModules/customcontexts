@@ -2,7 +2,7 @@
 	<rawname>customcontexts</rawname>
 	<repo>unsupported</repo>
 	<name>Custom Contexts</name>
-	<version>2.10.0.0</version>
+	<version>2.10.0.1</version>
 	<category>Connectivity</category>
 	<description>
 		Creates custom contexts which can be used to allow limited access to dialplan applications. Allows for time restrictions on any dialplan access. Allows for pattern matching to allow/deny. Allows for failover destinations, and PIN protected failover. This can be very useful for multi-tennant systems. Inbound routing can be done using DID or zap channel routing,	this module allows for selective outbound routing. House/public phones can be placed in a restricted context allowing them only internal calls.
@@ -16,10 +16,10 @@
 				<module>core</module>
         </depends>
         <changelog>
+		*2.10.0.1* #5478 
 				*2.10.0.0* new version changes
 				*2.9.0.0* #4986, 2.9 bump
-
-        </changelog>
+	</changelog>
 	<attention>
 		This is an advanced module, and you should not use it without understanding asterisk dialplans! This is meant as a convenience tool for someone who would have had to resort to config editing. If you experience problems with it, just disable it and no harm done. REMEMBER! Any device placed in a restricted context will have no access to the dialplan if this module is disabled until it is placed in a normal context!
 	</attention>
