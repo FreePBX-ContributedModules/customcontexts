@@ -21,18 +21,22 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-09-23 09:52+0000\n"
-"PO-Revision-Date: 2011-09-23 09:52+0000\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2014-07-22 15:28+0200\n"
+"Last-Translator: Chavdar <chavdar_75@yahoo.com>\n"
+"Language-Team: Bulgarian "
+"<http://git.freepbx.org/projects/freepbx/customcontexts/bg/>\n"
+"Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 1.10-dev\n"
 
 msgid "Custom Contexts"
-msgstr ""
+msgstr "Custom Contexts"
 
 msgid "Connectivity"
-msgstr ""
+msgstr "Свързване"
 
 msgid ""
 "Creates custom contexts which can be used to allow limited access to "
@@ -45,44 +49,48 @@ msgid ""
 msgstr ""
 
 msgid "Custom Contexts Admin"
-msgstr ""
+msgstr "Custom Contexts Админ"
 
 msgid "Context"
-msgstr ""
+msgstr "Context"
 
 msgid " v"
-msgstr ""
+msgstr " v"
 
 msgid "Add Context"
-msgstr ""
+msgstr "Добави Context"
 
 msgid "Edit Context"
-msgstr ""
+msgstr "Редактирай Context"
 
 msgid "Remove Context"
-msgstr ""
+msgstr "Премахни Context"
 
 msgid "Duplicate Context"
-msgstr ""
+msgstr "Дублирай Context"
 
 #, php-format
 msgid "Custom Context: %s"
-msgstr ""
+msgstr "Custom Context: %s"
 
 #, php-format
 msgid "Custom Context: %s (%s)"
-msgstr ""
+msgstr "Custom Context: %s (%s)"
 
 msgid "Time Conditions Module required and not present .. aborting install"
 msgstr ""
+"Изисква се модул Времеви Условия, който не е инсталиран .. прекъсване на "
+"инсталацията"
 
 msgid "migrating customcontexts_timegroups if needed.."
-msgstr ""
+msgstr "мигриране на customcontexts_timegroups ако е необходимо.."
 
 msgid "done"
-msgstr ""
+msgstr "изпълнено"
 
 msgid ""
 "removing customcontexts_timegroups and customcontexts_tiemgroups_detail "
 "tables.."
 msgstr ""
+"премахване customcontexts_timegroups и customcontexts_tiemgroups_detail "
+"таблици.."
