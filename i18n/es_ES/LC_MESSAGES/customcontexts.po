@@ -1,0 +1,89 @@
+# This file is part of FreePBX.
+#
+#    FreePBX is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    FreePBX is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with FreePBX.  If not, see <http://www.gnu.org/licenses/>.
+#
+# FreePBX language template for customcontexts
+# Copyright (C) 2008, 2009, 2010 Bandwith.com
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-09-23 09:52+0000\n"
+"PO-Revision-Date: 2011-09-23 09:52+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Custom Contexts"
+msgstr ""
+
+msgid "Connectivity"
+msgstr ""
+
+msgid ""
+"Creates custom contexts which can be used to allow limited access to "
+"dialplan applications. Allows for time restrictions on any dialplan access. "
+"Allows for pattern matching to allow/deny. Allows for failover destinations, "
+"and PIN protected failover. This can be very useful for multi-tennant "
+"systems. Inbound routing can be done using DID or zap channel routing,\tthis "
+"module allows for selective outbound routing. House/public phones can be "
+"placed in a restricted context allowing them only internal calls."
+msgstr ""
+
+msgid "Custom Contexts Admin"
+msgstr ""
+
+msgid "Context"
+msgstr ""
+
+msgid " v"
+msgstr ""
+
+msgid "Add Context"
+msgstr ""
+
+msgid "Edit Context"
+msgstr ""
+
+msgid "Remove Context"
+msgstr ""
+
+msgid "Duplicate Context"
+msgstr ""
+
+#, php-format
+msgid "Custom Context: %s"
+msgstr ""
+
+#, php-format
+msgid "Custom Context: %s (%s)"
+msgstr ""
+
+msgid "Time Conditions Module required and not present .. aborting install"
+msgstr ""
+
+msgid "migrating customcontexts_timegroups if needed.."
+msgstr ""
+
+msgid "done"
+msgstr ""
+
+msgid ""
+"removing customcontexts_timegroups and customcontexts_tiemgroups_detail "
+"tables.."
+msgstr ""
