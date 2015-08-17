@@ -1,26 +1,15 @@
 # This file is part of FreePBX.
 #
-#    FreePBX is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 2 of the License, or
-#    (at your option) any later version.
-#
-#    FreePBX is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with FreePBX.  If not, see <http://www.gnu.org/licenses/>.
+# For licensing information, please see the file named LICENSE located in the module directory
 #
 # FreePBX language template for customcontexts
-# Copyright (C) 2008, 2009, 2010 Bandwith.com
+# Copyright (C) 2008-2015 Sangoma, Inc.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-23 09:52+0000\n"
+"POT-Creation-Date: 2015-08-17 16:25-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,60 +17,61 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Custom Contexts"
-msgstr ""
-
-msgid "Connectivity"
-msgstr ""
-
-msgid ""
-"Creates custom contexts which can be used to allow limited access to "
-"dialplan applications. Allows for time restrictions on any dialplan access. "
-"Allows for pattern matching to allow/deny. Allows for failover destinations, "
-"and PIN protected failover. This can be very useful for multi-tennant "
-"systems. Inbound routing can be done using DID or zap channel routing,\tthis "
-"module allows for selective outbound routing. House/public phones can be "
-"placed in a restricted context allowing them only internal calls."
-msgstr ""
-
-msgid "Custom Contexts Admin"
-msgstr ""
-
-msgid "Context"
-msgstr ""
-
+#: functions.inc.php:446
+#: functions.inc.php:602
 msgid " v"
 msgstr ""
 
+#: functions.inc.php:448
+#: functions.inc.php:604
 msgid "Add Context"
 msgstr ""
 
-msgid "Edit Context"
+#: functions.inc.php:439
+#: functions.inc.php:463
+#: functions.inc.php:593
+#: page.customcontexts.php:21
+#: page.customcontextsadmin.php:24
+msgid "Context"
 msgstr ""
 
-msgid "Remove Context"
-msgstr ""
-
-msgid "Duplicate Context"
-msgstr ""
-
+#: functions.inc.php:838
 #, php-format
 msgid "Custom Context: %s"
 msgstr ""
 
+#: functions.inc.php:867
 #, php-format
 msgid "Custom Context: %s (%s)"
 msgstr ""
 
+#: functions.inc.php:620
+msgid "Duplicate Context"
+msgstr ""
+
+#: functions.inc.php:457
+#: functions.inc.php:617
+msgid "Edit Context"
+msgstr ""
+
+#: functions.inc.php:459
+msgid "Remove Context"
+msgstr ""
+
+#: install.php:33
 msgid "Time Conditions Module required and not present .. aborting install"
 msgstr ""
 
-msgid "migrating customcontexts_timegroups if needed.."
-msgstr ""
-
+#: install.php:141
+#: install.php:149
 msgid "done"
 msgstr ""
 
+#: install.php:135
+msgid "migrating customcontexts_timegroups if needed.."
+msgstr ""
+
+#: install.php:142
 msgid ""
 "removing customcontexts_timegroups and customcontexts_tiemgroups_detail "
 "tables.."
