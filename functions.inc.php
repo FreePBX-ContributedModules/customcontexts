@@ -92,6 +92,9 @@ function customcontexts_hook_core($viewing_itemid, $target_menuid) {
 			/*$route = substr($viewing_itemid,4);$hookhtml = '';return $hookhtml;*/
 			return '';
 		break;
+		case 'extensions':
+			return load_view(__DIR__.'/views/extensions_hook.php');
+		break;
 		default:
 				return false;
 		break;
@@ -344,37 +347,6 @@ function customcontexts_configpageinit($dispnum) {
     return true;
   }
 
-  if ($dispnum == 'devices' || $dispnum == 'extensions') {
-    $device_info = core_devices_get($extdisplay);
-    if (empty($device_info)) {
-        return true;
-    } else {
-      $tech = $device_info['tech'];
-      switch ($tech) {
-        case 'iax2':
-        case 'iax':
-        case 'sip':
-        case 'dahdi':
-        case 'zap':
-          $_REQUEST['tech'] = $tech;
-          $_REQUEST['customcontext'] = $device_info['context'];
-        break;
-        default:
-          return true;
-      }
-    }
-  } else {
-    return true;
-  }
-
-	$contextssel  = customcontexts_getcontexts();
-	$currentcomponent->addoptlistitem('contextssel', 'from-internal', 'ALLOW ALL (Default)');
-	$contextssel = is_array($contextssel)?$contextssel:array();
-	foreach ($contextssel as $val) {
-		$currentcomponent->addoptlistitem('contextssel', $val[0], $val[1]);
-	}
-	$currentcomponent->setoptlistopts('contextssel', 'sort', false);
-
 	switch ($dispnum) {
 		case 'devices':
 			$currentcomponent->addguifunc('customcontexts_devices_configpageload');
@@ -401,16 +373,8 @@ function customcontexts_devices_configpageload() {
 
 //hook gui function
 function customcontexts_extensions_configpageload() {
-  global $currentcomponent;
 
-	$extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:null;
-  $tech = $_REQUEST['tech'];
-  $curcontext = $_REQUEST['customcontext'];
 
-	$currentcomponent->addguielem('Device Options', new gui_selectbox('customcontext', $currentcomponent->getoptlist('contextssel'), $curcontext, 'Custom Context', 'You have the '.customcontexts_getmodulevalue('moduledisplayname').' Module installed! You can select a custom context from this list to limit this user to portions of the dialplan you defined in the '.customcontexts_getmodulevalue('moduledisplayname').' module.',true, "javascript:if (document.frm_extensions.customcontext.value) {document.frm_extensions.devinfo_context.value = document.frm_extensions.customcontext.value} else {document.frm_extensions.devinfo_context.value = 'from-internal'}"));
-
-  $js = '<script type="text/javascript">$(document).ready(function(){$("#devinfo_context").parent().parent().hide();});</script>';
-  $currentcomponent->addguielem('Device Options', new guielement('test-html', $js, ''));
 }
 
 /*
