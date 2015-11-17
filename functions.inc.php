@@ -1,4 +1,4 @@
-<?php 
+<?php
 if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
 /* $Id:$ */
 
@@ -44,7 +44,7 @@ function customcontexts_hookGet_config($engine) {
 	global $ext;
 	switch($engine) {
 		case 'asterisk':
-			$sql = 'UPDATE customcontexts_includes_list SET missing = 1 WHERE context 
+			$sql = 'UPDATE customcontexts_includes_list SET missing = 1 WHERE context
 							NOT IN (SELECT context FROM customcontexts_contexts_list WHERE locked = 1)';
 			$db->query($sql);
 			$sql = 'SELECT context FROM customcontexts_contexts_list';
@@ -59,20 +59,20 @@ function customcontexts_hookGet_config($engine) {
 					foreach ($ext->_includes[$section] as $include) {
 						$i = $i + 1;
 						if ($section == 'outbound-allroutes') {
-							$sql = 'INSERT INTO customcontexts_includes_list 
+							$sql = 'INSERT INTO customcontexts_includes_list
 											(context, include, description, missing, sort)
 											VALUES ("'.$section.'", "'.$include['include'].'",
-											"'.$include['comment'].'", "0", "'.($i+100).'") 
+											"'.$include['comment'].'", "0", "'.($i+100).'")
 											ON DUPLICATE KEY UPDATE sort = "'.($i+100).'", missing = "0"';
 							$db->query($sql);
 						} else {
-							$sql = 'UPDATE customcontexts_includes_list SET missing = "0", sort = "'.$i.'" 
+							$sql = 'UPDATE customcontexts_includes_list SET missing = "0", sort = "'.$i.'"
 											WHERE context = "'.$section.'" and include = "'.$include['include'].'"';
 							$db->query($sql);
             }
-						$sql = 'INSERT IGNORE INTO customcontexts_includes_list 
-										(context, include, description, sort) 
-										VALUES ("'.$section.'", "'.$include['include'].'", 
+						$sql = 'INSERT IGNORE INTO customcontexts_includes_list
+										(context, include, description, sort)
+										VALUES ("'.$section.'", "'.$include['include'].'",
 										"'.$include['include'].'", "'.$i.'")';
 						$db->query($sql);
 					}
@@ -104,18 +104,18 @@ function customcontexts_hook_core($viewing_itemid, $target_menuid) {
 function customcontexts_getincludeslist($context) {
 	global $db;
 //	$sql = "select include, description from customcontexts_includes_list where context = '".$context."' order by description";
-	$sql = "SELECT include, customcontexts_includes_list.description, 
-					COUNT(customcontexts_contexts_list.context) AS preemptcount  
-					FROM customcontexts_includes_list 
-					LEFT OUTER JOIN customcontexts_contexts_list 
-					ON include = customcontexts_contexts_list.context 
-					WHERE customcontexts_includes_list.context = '$context' 
-					GROUP BY include, customcontexts_includes_list.description 
+	$sql = "SELECT include, customcontexts_includes_list.description,
+					COUNT(customcontexts_contexts_list.context) AS preemptcount
+					FROM customcontexts_includes_list
+					LEFT OUTER JOIN customcontexts_contexts_list
+					ON include = customcontexts_contexts_list.context
+					WHERE customcontexts_includes_list.context = '$context'
+					GROUP BY include, customcontexts_includes_list.description
 					ORDER BY customcontexts_includes_list.sort,
 					customcontexts_includes_list.description";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
-		$results = null;
+		$results = array();
 	}
 	foreach ($results as $val) {
 		$tmparray[] = array($val[0], $val[1], $val[2]);
@@ -129,7 +129,7 @@ function customcontexts_getcontextslist() {
 	$sql = "select context, description from customcontexts_contexts_list order by description";
 	$results = $db->getAll($sql);
 	if(DB::IsError($results)) {
-		$results = null;
+		$results = array();
 	}
 	foreach ($results as $val) {
 		$tmparray[] = array($val[0], $val[1]);
@@ -141,36 +141,36 @@ function customcontexts_getcontextslist() {
 function customcontexts_getincludes($context) {
 	global $db;
 //	$sql = "select customcontexts_contexts_list.context, customcontexts_contexts_list.description as contextdescription, customcontexts_includes_list.include, customcontexts_includes_list.description, if(saved.include is null, 'no', if(saved.timegroupid is null, 'yes', saved.timegroupid)) as allow, saved.sort from customcontexts_contexts_list inner join customcontexts_includes_list on customcontexts_contexts_list.context = customcontexts_includes_list.context left outer join (select * from customcontexts_includes where context = '$context') saved on customcontexts_includes_list.include = saved.include order by customcontexts_contexts_list.description, customcontexts_includes_list.description";
-	$sql = "SELECT customcontexts_contexts_list.context, 
-					customcontexts_contexts_list.description AS contextdescription, 
-					customcontexts_includes_list.include, 
-					customcontexts_includes_list.description, 
-					IF(saved.include is null, 'no', 
+	$sql = "SELECT customcontexts_contexts_list.context,
+					customcontexts_contexts_list.description AS contextdescription,
+					customcontexts_includes_list.include,
+					customcontexts_includes_list.description,
+					IF(saved.include is null, 'no',
 						IF(saved.timegroupid is null, IF(saved.userules is null, 'yes', saved.userules),
-					saved.timegroupid)) AS allow, 
-					IF(saved.sort is null,customcontexts_includes_list.sort,saved.sort) AS sort, 
-					COUNT(preemptcheck.context) AS preemptcount FROM customcontexts_contexts_list 
-					INNER JOIN customcontexts_includes_list 
-					ON customcontexts_contexts_list.context = customcontexts_includes_list.context 
-					LEFT OUTER JOIN (SELECT * from customcontexts_includes WHERE context = '$context')  AS saved 
-					ON customcontexts_includes_list.include = saved.include 
-					LEFT OUTER JOIN customcontexts_contexts_list preemptcheck 
-					ON customcontexts_includes_list.include = preemptcheck.context 
-					LEFT OUTER JOIN  outbound_route_sequence 
+					saved.timegroupid)) AS allow,
+					IF(saved.sort is null,customcontexts_includes_list.sort,saved.sort) AS sort,
+					COUNT(preemptcheck.context) AS preemptcount FROM customcontexts_contexts_list
+					INNER JOIN customcontexts_includes_list
+					ON customcontexts_contexts_list.context = customcontexts_includes_list.context
+					LEFT OUTER JOIN (SELECT * from customcontexts_includes WHERE context = '$context')  AS saved
+					ON customcontexts_includes_list.include = saved.include
+					LEFT OUTER JOIN customcontexts_contexts_list preemptcheck
+					ON customcontexts_includes_list.include = preemptcheck.context
+					LEFT OUTER JOIN  outbound_route_sequence
 					ON REPLACE(customcontexts_includes_list.include,'outrt-','') = outbound_route_sequence.route_id
-					GROUP BY customcontexts_contexts_list.context, 
-					customcontexts_contexts_list.description, 
-					customcontexts_includes_list.include, 
-					customcontexts_includes_list.description, 
-					IF(saved.include is null, 'no', 
-						IF(saved.timegroupid is null, 'yes', saved.timegroupid)), 
-					saved.sort,  
+					GROUP BY customcontexts_contexts_list.context,
+					customcontexts_contexts_list.description,
+					customcontexts_includes_list.include,
+					customcontexts_includes_list.description,
+					IF(saved.include is null, 'no',
+						IF(saved.timegroupid is null, 'yes', saved.timegroupid)),
+					saved.sort,
 					customcontexts_contexts_list.description
-					ORDER BY 
-					IF(saved.sort is null,201,saved.sort), 
+					ORDER BY
+					IF(saved.sort is null,201,saved.sort),
 					customcontexts_includes_list.sort,
           outbound_route_sequence.seq,
-					customcontexts_contexts_list.description, 
+					customcontexts_contexts_list.description,
 					customcontexts_includes_list.description";
 	$results = sql($sql,'getAll');
 	foreach ($results as $val){
@@ -195,21 +195,21 @@ function customcontexts_getcontexts() {
 	return $tmparray;
 }
 
-/* 
+/*
  * allow reload to get our config
  * we add all user custom contexts ad include his selected includes
  * also maybe allow the user to specify invalid destination
- */ 
+ */
 function customcontexts_get_config($engine) {
   global $ext;
   switch($engine) {
     case 'asterisk':
 	global $db;
-	$sql = "SELECT context, dialrules, faildestination, featurefaildestination, 
+	$sql = "SELECT context, dialrules, faildestination, featurefaildestination,
 					failpin, featurefailpin FROM customcontexts_contexts";
 	$results = $db->getAll($sql);
-	if(DB::IsError($results)) { 
-		$results = null;
+	if(DB::IsError($results)) {
+		$results = array();
 	}
 	foreach ($results as $val) {
 		$context = $val[0];
@@ -222,12 +222,12 @@ function customcontexts_get_config($engine) {
 		foreach (array_keys($dialpattern) as $key) {
 			//trim it
 			$dialpattern[$key] = trim($dialpattern[$key]);
-			
+
 			// remove blanks
 			if ($dialpattern[$key] == "") {
 				unset($dialpattern[$key]);
 			}
-			
+
 			// remove leading underscores (we do that on backend)
 			if ($dialpattern[$key][0] == "_") {
 				$dialpattern[$key] = substr($dialpattern[$key],1);
@@ -240,34 +240,34 @@ function customcontexts_get_config($engine) {
 				if (false !== ($pos = strpos($pattern,"|"))) {
 					// we have a | meaning to not pass the digits on
 					// (ie, 9|NXXXXXX should use the pattern _9NXXXXXX but only pass NXXXXXX, not the leading 9)
-					
+
 					$pattern = str_replace("|","",$pattern); // remove all |'s
 					$exten = "EXTEN:".$pos; // chop off leading digit
 				} else {
 					// we pass the full dialed number as-is
-					$exten = "EXTEN"; 
+					$exten = "EXTEN";
 				}
-				
-				if (!preg_match("/^[0-9*]+$/",$pattern)) { 
+
+				if (!preg_match("/^[0-9*]+$/",$pattern)) {
 					// note # is not here, as asterisk doesn't recoginize it as a normal digit, thus it requires _ pattern matching
-					
+
 					// it's not strictly digits, so it must have patterns, so prepend a _
 					$pattern = "_".$pattern;
 				}
-				$ext->add($context,$pattern, '', new ext_goto('1','${'.$exten.'}',$context.'_rulematch')); 
+				$ext->add($context,$pattern, '', new ext_goto('1','${'.$exten.'}',$context.'_rulematch'));
 			}
 		}
 		//switch to first line to deny all access when time group deleted
 		//$sql = "select include, time from customcontexts_includes left outer join customcontexts_timegroups_detail on  customcontexts_includes.timegroupid = customcontexts_timegroups_detail.timegroupid where context = '".$context."' and (customcontexts_includes.timegroupid is null or customcontexts_timegroups_detail.timegroupid is not null) order by sort";
-		$sql  = "SELECT include, time, userules, seq FROM customcontexts_includes 
+		$sql  = "SELECT include, time, userules, seq FROM customcontexts_includes
 						LEFT OUTER JOIN timegroups_details
-						ON  customcontexts_includes.timegroupid = timegroups_details.timegroupid 
-						LEFT OUTER JOIN  outbound_route_sequence 
+						ON  customcontexts_includes.timegroupid = timegroups_details.timegroupid
+						LEFT OUTER JOIN  outbound_route_sequence
 						ON REPLACE(include,'outrt-','') = outbound_route_sequence.route_id
 						WHERE context = '$context' ORDER BY sort, seq";
 		$results2 = $db->getAll($sql);
 		if(DB::IsError($results2)) {
-			$results2 = null;
+			$results2 = array();
 		}
 		foreach ($results2 as $inc) {
 			$time = isset($inc[1])?'|'.$inc[1]:'';
@@ -290,12 +290,12 @@ function customcontexts_get_config($engine) {
 		}
 		//these go in funny "exten => s,1,Macro(hangupcall,)"
 		//i'd rather use the base extension class to type it normally, but there is a bug in the class see ticket http://www.freepbx.org/trac/ticket/1453
-		$ext->add($context,'s', '', new ext_macro('hangupcall')); 
+		$ext->add($context,'s', '', new ext_macro('hangupcall'));
 		$ext->add($context,'h', '', new ext_macro('hangupcall'));
 		$ext->addInclude($context,$context.'_bad-number');
 		$ext->addInclude($context,'bad-number');
 		if (is_array($dialpattern)) {
-			$ext->add($context.'_rulematch','s', '', new ext_macro('hangupcall')); 
+			$ext->add($context.'_rulematch','s', '', new ext_macro('hangupcall'));
 			$ext->add($context.'_rulematch','h', '', new ext_macro('hangupcall'));
 			$ext->addInclude($context.'_rulematch',$context.'_bad-number');
 			$ext->addInclude($context.'_rulematch','bad-number');
@@ -369,6 +369,7 @@ function customcontexts_configpageinit($dispnum) {
 
 	$contextssel  = customcontexts_getcontexts();
 	$currentcomponent->addoptlistitem('contextssel', 'from-internal', 'ALLOW ALL (Default)');
+	$contextssel = is_array($contextssel)?$contextssel:array();
 	foreach ($contextssel as $val) {
 		$currentcomponent->addoptlistitem('contextssel', $val[0], $val[1]);
 	}
@@ -417,13 +418,13 @@ function customcontexts_extensions_configpageload() {
  * we are using gui styles so there is very little on the page
  * the admin page is used to list _existing_ contexts for us to parse for includes
  * these contexts/includes can be tagged with a description for the user to select on the custom contexts page
- */ 
+ */
 function customcontexts_customcontextsadmin_configpageinit($dispnum) {
 global $currentcomponent;
 	switch ($dispnum) {
 		case 'customcontextsadmin':
 			$currentcomponent->addguifunc('customcontexts_customcontextsadmin_configpageload');
-			$currentcomponent->addprocessfunc('customcontexts_customcontextsadmin_configprocess', 5);  
+			$currentcomponent->addprocessfunc('customcontexts_customcontextsadmin_configprocess', 5);
 		break;
 	}
 }
@@ -455,7 +456,7 @@ global $currentcomponent;
 			$locked = $savedcontext[2];
 			$currentcomponent->addguielem('_top', new gui_hidden('extdisplay', $extdisplay));
 			$currentcomponent->addguielem('_top', new gui_pageheading('title', _("Edit Context").": $description", false), 0);
-			if ($locked == false) {			
+			if ($locked == false) {
 				$currentcomponent->addguielem('_top', new gui_link('del', _("Remove Context").": $context", $delURL, true, false), 0);
 			}
 			else
@@ -464,6 +465,7 @@ global $currentcomponent;
 			}
 			$currentcomponent->addguielem('Context', new gui_textbox('description', $description, 'Description', 'This will display as a heading for the available includes on the '.customcontexts_getmodulevalue('moduledisplayname').' page.', '!isAlphanumeric() || isWhitespace()', $descerr, false), 3);
 			$inclist = customcontexts_getincludeslist($extdisplay);
+			$inclist = is_array($inclist)?$inclist:array();
 			foreach ($inclist as $val) {
 				if ($val[2] > 0) {
 					$currentcomponent->addguielem('Includes Descriptions', new gui_textbox('includes['.$val[0].']', $val[1], '<font color="red"><strong>'.$val[0].'</strong></font>', 'This will display as the name of the include on the '.customcontexts_getmodulevalue('moduledisplayname').' page.<BR><font color="red"><strong>NOTE: This include should have a description denoting the fact that allowing it may allow another ENTIRE context!</strong></font>', '!isAlphanumeric() || isWhitespace()', $descerr, false), 3);
@@ -482,7 +484,7 @@ function customcontexts_customcontextsadmin_configprocess() {
 	$action= isset($_REQUEST['action'])?$_REQUEST['action']:null;
 	$context= isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:null;
 	$description= isset($_REQUEST['description'])?$_REQUEST['description']:null;
-//addslashes	
+//addslashes
 	switch ($action) {
 	case 'add':
 		customcontexts_customcontextsadmin_add($context,$description);
@@ -542,6 +544,7 @@ function customcontexts_customcontextsadmin_editincludes($context,$includes) {
 	global $db;
 	$sql = "delete from customcontexts_includes_list  where context = '$context'";
 	$db->query($sql);
+	$includes = is_array($includes)?$includes:array();
 	foreach ($includes as $key=>$val) {
 		$sql = "insert customcontexts_includes_list (context, include, description) values ('$context','$key','$val')";
 		$db->query($sql);
@@ -555,7 +558,7 @@ function customcontexts_customcontextsadmin_editincludes($context,$includes) {
  * we are using gui styles so there is very little on the page
  * the custom contexts page is used to create _new_ contexts for use in the dialplan
  * these contexts can include any includes which were made available from admin
- */ 
+ */
 function customcontexts_customcontexts_configpageinit($dispnum) {
 global $currentcomponent;
 	switch ($dispnum) {
@@ -565,15 +568,16 @@ global $currentcomponent;
 			$currentcomponent->addoptlistitem('includeyn', 'allowmatch', 'Allow Rules');
 			$currentcomponent->addoptlistitem('includeyn', 'denymatch', 'Deny Rules');
 			$timegroups = timeconditions_timegroups_list_groups();
+			$timegroups = is_array($timegroups)?$timegroups:array();
 			foreach ($timegroups as $val) {
 				$currentcomponent->addoptlistitem('includeyn', $val[0], $val[1]);
 			}
 			$currentcomponent->setoptlistopts('includeyn', 'sort', false);
-			for($i = 0; $i <= 300; $i++) { 
+			for($i = 0; $i <= 300; $i++) {
 				$currentcomponent->addoptlistitem('includesort', $i - 50, $i);
 			}
 			$currentcomponent->addguifunc('customcontexts_customcontexts_configpageload');
-			$currentcomponent->addprocessfunc('customcontexts_customcontexts_configprocess', 5);  
+			$currentcomponent->addprocessfunc('customcontexts_customcontexts_configprocess', 5);
 		break;
 	}
 }
@@ -638,18 +642,19 @@ global $currentcomponent;
 			$currentcomponent->addguielem('Feature Code Failover Destination', new gui_drawselects('dest1', 1, $featurefaildest, 'Failover Destination'));
 			$currentcomponent->addguielem('Set All', new gui_selectbox('setall', $currentcomponent->getoptlist('includeyn'), '', 'Set All To:', 'Choose allow to allow access to all includes, choose deny to deny access.',true,'javascript:for (i=0;i<document.forms[\'frm_customcontexts\'].length;i++) {if(document.forms[\'frm_customcontexts\'][i].type==\'select-one\' && document.forms[\'frm_customcontexts\'][i].name.indexOf(\'[allow]\') >= 0 ) {document.forms[\'frm_customcontexts\'][i].selectedIndex = document.forms[\'frm_customcontexts\'][\'setall\'].selectedIndex-1;}}'),2);
 			$inclist = customcontexts_getincludes($extdisplay);
+			$inclist = is_array($inclist)?$inclist:array();
 			foreach ($inclist as $val) {
 				if ($showsort == 1) {
 					if ($val[6] > 0) {
 						//$currentcomponent->addguielem($val[1], new gui_selectbox('includes['.$val[2].'][allow]', $currentcomponent->getoptlist('includeyn'), $val[4], '<font color="red"><strong>'.$val[3].'</strong></font>', $val[2].': Choose allow to allow access to this include, choose deny to deny access.<BR><font color="red"><strong>NOTE: Allowing this include may automatically allow another ENTIRE context!</strong></font>',false));
-						$gui1 = new gui_selectbox('includes['.$val[2].'][allow]', 
-												$currentcomponent->getoptlist('includeyn'), $val[4], 
-												'<font color="red"><strong>'.$val[3].'</strong></font>', 
+						$gui1 = new gui_selectbox('includes['.$val[2].'][allow]',
+												$currentcomponent->getoptlist('includeyn'), $val[4],
+												'<font color="red"><strong>'.$val[3].'</strong></font>',
 												$val[2].': Choose allow to allow access to this include, choose deny to deny access.<BR><font color="red"><strong>NOTE: Allowing this include may automatically allow another ENTIRE context!</strong></font>',false);
 					} else {
 						//$currentcomponent->addguielem($val[1], new gui_selectbox('includes['.$val[2].'][allow]', $currentcomponent->getoptlist('includeyn'), $val[4], $val[3], $val[2].': Choose allow to allow access to this include, choose deny to deny access.',false));
-						$gui1 = new gui_selectbox('includes['.$val[2].'][allow]', 
-										$currentcomponent->getoptlist('includeyn'), $val[4], $val[3], 
+						$gui1 = new gui_selectbox('includes['.$val[2].'][allow]',
+										$currentcomponent->getoptlist('includeyn'), $val[4], $val[3],
 										$val[2].': Choose allow to allow access to this include, choose deny to deny access.',false);
 					}
 					//$currentcomponent->addguielem($val[1], new gui_selectbox('includes['.$val[2].'][sort]', $currentcomponent->getoptlist('includesort'), $val[5], '<div align="right">Priority</div>', 'Choose a priority with which to sort this option. Lower numbers have a higher priority.',false));
@@ -658,12 +663,12 @@ global $currentcomponent;
 					$currentcomponent->addguielem($val[1], new guielement('$val[0]',$inchtml,''),3);
 				} else {
 					if ($val[6] > 0) {
-						$currentcomponent->addguielem($val[1], new gui_selectbox('includes['.$val[2].'][allow]', 
-															$currentcomponent->getoptlist('includeyn'), $val[4], 
+						$currentcomponent->addguielem($val[1], new gui_selectbox('includes['.$val[2].'][allow]',
+															$currentcomponent->getoptlist('includeyn'), $val[4],
 															'<font color="red"><strong>'.$val[3].'</strong></font>', $val[2].': Choose allow to allow access to this include, choose deny to deny access.<BR><font color="red"><strong>NOTE: Allowing this include may automatically allow another ENTIRE context!</strong></font>',false));
 					} else {
-						$currentcomponent->addguielem($val[1], new gui_selectbox('includes['.$val[2].'][allow]', 
-															$currentcomponent->getoptlist('includeyn'), $val[4], 
+						$currentcomponent->addguielem($val[1], new gui_selectbox('includes['.$val[2].'][allow]',
+															$currentcomponent->getoptlist('includeyn'), $val[4],
 															$val[3], $val[2].': Choose allow to allow access to this include, choose deny to deny access.',false));
 					}
 				}
@@ -685,7 +690,7 @@ function customcontexts_customcontexts_configprocess() {
 	$failpin= isset($_REQUEST['failpin'])?$_REQUEST['failpin']:null;
 	$featurefailpin= isset($_REQUEST['featurefailpin'])?$_REQUEST['featurefailpin']:null;
 
-//addslashes	
+//addslashes
 	switch ($action) {
 	case 'add':
 		customcontexts_customcontexts_add($context,$description,$dialrules,$faildest,$featurefaildest,$failpin,$featurefailpin);
@@ -760,6 +765,7 @@ function customcontexts_customcontexts_editincludes($context,$includes,$newconte
 	if (!isset($newcontext) || ($newcontext == '')) {
 		$newcontext = $context;
 	}
+	$includes = is_array($includes)?$includes:array();
 	foreach ($includes as $key=>$val) {
 		if ($val[allow] <> 'no') {
 			$timegroup = 'null';
@@ -814,6 +820,7 @@ function customcontexts_customcontexts_duplicatecontext($context) {
 	}
 	customcontexts_customcontexts_add($context.$suffix,$description.$suffix,$dialrules,$faildest,$featurefaildest,$failpin,$featurefailpin);
 	$includes = customcontexts_getincludes($context);
+	$includes = is_array($includes)?$includes:array();
 	foreach ($includes as $val) {
 		$newincludes[$val[2]] = array("allow"=>"$val[4]", "sort"=>"$val[5]");
 	}

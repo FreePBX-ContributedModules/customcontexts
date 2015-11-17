@@ -2,7 +2,7 @@
 	<rawname>customcontexts</rawname>
 	<repo>unsupported</repo>
 	<name>Custom Contexts</name>
-	<version>2.11.0.2</version>
+	<version>13.0.1</version>
 	<category>Connectivity</category>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-2.0.txt</licenselink>
@@ -19,6 +19,7 @@
 		<module>timeconditions</module>
 	</depends>
 	<changelog>
+		*13.0.1* FREEPBX-10448 html updates, FREEPBX-10723 array validation
 		*2.11.0.2* Clarify GPLv2 Licence.
 		*2.11.0.1* Fix module.xml
 		*2.11.0.0* bump version
