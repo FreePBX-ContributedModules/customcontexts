@@ -653,8 +653,8 @@ global $currentcomponent;
 										$val[2].': Choose allow to allow access to this include, choose deny to deny access.',false);
 					}
 					//$currentcomponent->addguielem($val[1], new gui_selectbox('includes['.$val[2].'][sort]', $currentcomponent->getoptlist('includesort'), $val[5], '<div align="right">Priority</div>', 'Choose a priority with which to sort this option. Lower numbers have a higher priority.',false));
-					$guisort = new gui_selectbox('includes['.$val[2].'][sort]', $currentcomponent->getoptlist('includesort'), $val[5], '<div align="right">Priority</div>', 'Choose a priority with which to sort this option. Lower numbers have a higher priority.',false);
-					$inchtml = '<tr><td colspan="2"><table width="100%"><tr><td></td><td width="50"></td></tr>'.$gui1->generatehtml().'</table></td><td><table>'.$guisort->generatehtml().'</table></td></tr>';
+					$guisort = new gui_selectbox('includes['.$val[2].'][sort]', $currentcomponent->getoptlist('includesort'), $val[5], 'Priority', 'Choose a priority with which to sort this option. Lower numbers have a higher priority.',false);
+					$inchtml = '<tr><td colspan="2"><table width="100%"><tr><td></td><td width="18%"></td></tr>'.$gui1->generatehtml().'</table></td><td><table align="right">'.$guisort->generatehtml().'</table></td></tr>';
 					$currentcomponent->addguielem($val[1], new guielement('$val[0]',$inchtml,''),3);
 				} else {
 					if ($val[6] > 0) {
