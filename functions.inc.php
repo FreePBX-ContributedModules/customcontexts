@@ -93,7 +93,9 @@ function customcontexts_hook_core($viewing_itemid, $target_menuid) {
 			return '';
 		break;
 		case 'extensions':
-			return load_view(__DIR__.'/views/extensions_hook.php');
+			if((isset($_REQUEST['tech_hardware']) && !empty($_REQUEST['tech_hardware'])) || (isset($_REQUEST['extdisplay']) && !empty($_REQUEST['extdisplay']))){
+				return load_view(__DIR__.'/views/extensions_hook.php');
+			}
 		break;
 		default:
 				return false;
