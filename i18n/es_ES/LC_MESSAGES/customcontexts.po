@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-17 16:25-0700\n"
+"POT-Creation-Date: 2015-11-24 14:17-0800\n"
 "PO-Revision-Date: 2015-04-25 07:59+0200\n"
 "Last-Translator: Victor <victor.martinez@neocenter.com>\n"
 "Language-Team: Spanish <http://weblate.freepbx.org/projects/fpbxcn/"
@@ -32,38 +32,70 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.2-dev\n"
 
-#: functions.inc.php:446 functions.inc.php:602
+#: functions.inc.php:413 functions.inc.php:572
 msgid " v"
 msgstr " v"
 
-#: functions.inc.php:448 functions.inc.php:604
+#: functions.inc.php:415 functions.inc.php:574
 msgid "Add Context"
 msgstr "Agregar Contexto"
 
-#: functions.inc.php:439 functions.inc.php:463 functions.inc.php:593
+#: customcontexts.i18n.php:6 customcontexts.i18n.php:12
+msgid "Connectivity"
+msgstr "Conectividad"
+
+#: functions.inc.php:406 functions.inc.php:430 functions.inc.php:563
 #: page.customcontexts.php:21 page.customcontextsadmin.php:24
 msgid "Context"
 msgstr "Contexto"
 
-#: functions.inc.php:838
+#: customcontexts.i18n.php:8
+msgid ""
+"Creates custom contexts which can be used to allow limited access to "
+"dialplan applications. Allows for time restrictions on any dialplan access. "
+"Allows for pattern matching to allow/deny. Allows for failover destinations, "
+"and PIN protected failover. This can be very useful for multi-tennant "
+"systems. Inbound routing can be done using DID or zap channel routing,\tthis "
+"module allows for selective outbound routing. House/public phones can be "
+"placed in a restricted context allowing them only internal calls."
+msgstr ""
+"Crea contextos personalizados que pueden ser utilizados para permitir acceso "
+"limitado a las aplicaciones del dialplan. Permite las restricciones de "
+"tiempo en cualquier acceso al dialplan. Permite la comparación de patrones "
+"para permitir / denegar. Permite destinos failover, y PIN failover  "
+"protegido. Esto puede ser muy útil para sistemas multi-Tennant. El "
+"erutamiento inboubd se puede hacer mediante DID o a través canal zap, → este "
+"módulo permite enrutamiento  outbound  selectivo. Casa / teléfonos públicos "
+"se pueden colocar en un contexto restringido permitiéndo sólo llamadas "
+"internas."
+
+#: functions.inc.php:811
 #, php-format
 msgid "Custom Context: %s"
 msgstr "Contexto Personalizado: %s"
 
-#: functions.inc.php:867
+#: functions.inc.php:840
 #, php-format
 msgid "Custom Context: %s (%s)"
 msgstr "Contexto Personalizado: %s (%s)"
 
-#: functions.inc.php:620
+#: customcontexts.i18n.php:4 customcontexts.i18n.php:10
+msgid "Custom Contexts"
+msgstr "Contextos Personalizados"
+
+#: customcontexts.i18n.php:14
+msgid "Custom Contexts Admin"
+msgstr "Administración de contextos personlizado"
+
+#: functions.inc.php:590
 msgid "Duplicate Context"
 msgstr "Duplicar Contexto"
 
-#: functions.inc.php:457 functions.inc.php:617
+#: functions.inc.php:424 functions.inc.php:587
 msgid "Edit Context"
 msgstr "Editar Contexto"
 
-#: functions.inc.php:459
+#: functions.inc.php:426
 msgid "Remove Context"
 msgstr "Remover Contexto"
 
@@ -88,32 +120,3 @@ msgid ""
 msgstr ""
 "eliminando customcontexts_timegroups y mesas "
 "customcontexts_tiemgroups_detail .."
-
-#~ msgid "Custom Contexts"
-#~ msgstr "Contextos Personalizados"
-
-#~ msgid "Connectivity"
-#~ msgstr "Conectividad"
-
-#~ msgid ""
-#~ "Creates custom contexts which can be used to allow limited access to "
-#~ "dialplan applications. Allows for time restrictions on any dialplan "
-#~ "access. Allows for pattern matching to allow/deny. Allows for failover "
-#~ "destinations, and PIN protected failover. This can be very useful for "
-#~ "multi-tennant systems. Inbound routing can be done using DID or zap "
-#~ "channel routing,\tthis module allows for selective outbound routing. "
-#~ "House/public phones can be placed in a restricted context allowing them "
-#~ "only internal calls."
-#~ msgstr ""
-#~ "Crea contextos personalizados que pueden ser utilizados para permitir "
-#~ "acceso limitado a las aplicaciones del dialplan. Permite las "
-#~ "restricciones de tiempo en cualquier acceso al dialplan. Permite la "
-#~ "comparación de patrones para permitir / denegar. Permite destinos "
-#~ "failover, y PIN failover  protegido. Esto puede ser muy útil para "
-#~ "sistemas multi-Tennant. El erutamiento inboubd se puede hacer mediante "
-#~ "DID o a través canal zap, → este módulo permite enrutamiento  outbound  "
-#~ "selectivo. Casa / teléfonos públicos se pueden colocar en un contexto "
-#~ "restringido permitiéndo sólo llamadas internas."
-
-#~ msgid "Custom Contexts Admin"
-#~ msgstr "Administración de contextos personlizado"

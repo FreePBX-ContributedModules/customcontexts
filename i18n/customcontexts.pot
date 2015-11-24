@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-17 16:25-0700\n"
+"POT-Creation-Date: 2015-11-24 14:17-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,44 +17,69 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: functions.inc.php:446
-#: functions.inc.php:602
+#: functions.inc.php:413
+#: functions.inc.php:572
 msgid " v"
 msgstr ""
 
-#: functions.inc.php:448
-#: functions.inc.php:604
+#: functions.inc.php:415
+#: functions.inc.php:574
 msgid "Add Context"
 msgstr ""
 
-#: functions.inc.php:439
-#: functions.inc.php:463
-#: functions.inc.php:593
+#: customcontexts.i18n.php:6
+#: customcontexts.i18n.php:12
+msgid "Connectivity"
+msgstr ""
+
+#: functions.inc.php:406
+#: functions.inc.php:430
+#: functions.inc.php:563
 #: page.customcontexts.php:21
 #: page.customcontextsadmin.php:24
 msgid "Context"
 msgstr ""
 
-#: functions.inc.php:838
+#: customcontexts.i18n.php:8
+msgid ""
+"Creates custom contexts which can be used to allow limited access to "
+"dialplan applications. Allows for time restrictions on any dialplan access. "
+"Allows for pattern matching to allow/deny. Allows for failover destinations, "
+"and PIN protected failover. This can be very useful for multi-tennant "
+"systems. Inbound routing can be done using DID or zap channel routing,\tthis "
+"module allows for selective outbound routing. House/public phones can be "
+"placed in a restricted context allowing them only internal calls."
+msgstr ""
+
+#: functions.inc.php:811
 #, php-format
 msgid "Custom Context: %s"
 msgstr ""
 
-#: functions.inc.php:867
+#: functions.inc.php:840
 #, php-format
 msgid "Custom Context: %s (%s)"
 msgstr ""
 
-#: functions.inc.php:620
+#: customcontexts.i18n.php:4
+#: customcontexts.i18n.php:10
+msgid "Custom Contexts"
+msgstr ""
+
+#: customcontexts.i18n.php:14
+msgid "Custom Contexts Admin"
+msgstr ""
+
+#: functions.inc.php:590
 msgid "Duplicate Context"
 msgstr ""
 
-#: functions.inc.php:457
-#: functions.inc.php:617
+#: functions.inc.php:424
+#: functions.inc.php:587
 msgid "Edit Context"
 msgstr ""
 
-#: functions.inc.php:459
+#: functions.inc.php:426
 msgid "Remove Context"
 msgstr ""
 
