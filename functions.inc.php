@@ -92,6 +92,7 @@ function customcontexts_hook_core($viewing_itemid, $target_menuid) {
 			/*$route = substr($viewing_itemid,4);$hookhtml = '';return $hookhtml;*/
 			return '';
 		break;
+		case 'devices':
 		case 'extensions':
 			if((isset($_REQUEST['tech_hardware']) && !empty($_REQUEST['tech_hardware'])) || (isset($_REQUEST['extdisplay']) && !empty($_REQUEST['extdisplay']))){
 				return load_view(__DIR__.'/views/extensions_hook.php');
@@ -338,45 +339,6 @@ function customcontexts_destinations() {
 	}
 
 	return $extens;
-}
-
-//brute force hoook to devices and extensions pages to inform the user that they can place these devices in their custom contexts
-function customcontexts_configpageinit($dispnum) {
-
-  global $currentcomponent;
-  $extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:null;
-  if ($extdisplay == '') {
-    return true;
-  }
-
-	switch ($dispnum) {
-		case 'devices':
-			$currentcomponent->addguifunc('customcontexts_devices_configpageload');
-		break;
-		case 'extensions':
-		  $currentcomponent->addguifunc('customcontexts_extensions_configpageload');
-		break;
-	}
-}
-
-//hook gui function
-function customcontexts_devices_configpageload() {
-  global $currentcomponent;
-
-	$extdisplay = isset($_REQUEST['extdisplay'])?$_REQUEST['extdisplay']:null;
-  $tech = $_REQUEST['tech'];
-  $curcontext = $_REQUEST['customcontext'];
-
-	$currentcomponent->addguielem('Device Options', new gui_selectbox('customcontext', $currentcomponent->getoptlist('contextssel'), $curcontext, 'Custom Context', 'You have the '.customcontexts_getmodulevalue('moduledisplayname').' Module installed! You can select a custom context from this list to limit this user to portions of the dialplan you defined in the '.customcontexts_getmodulevalue('moduledisplayname').' module.',true, "javascript:if (document.frm_devices.customcontext.value) {document.frm_devices.devinfo_context.value = document.frm_devices.customcontext.value} else {document.frm_devices.devinfo_context.value = 'from-internal'}"));
-
-  $js = '<script type="text/javascript">$(document).ready(function(){$("#devinfo_context").parent().parent().hide();});</script>';
-  $currentcomponent->addguielem('Device Options', new guielement('test-html', $js, ''));
-}
-
-//hook gui function
-function customcontexts_extensions_configpageload() {
-
-
 }
 
 /*
@@ -857,4 +819,3 @@ function customcontexts_check_destinations($dest=true) {
 	}
 	return $destlist;
 }
-?>
