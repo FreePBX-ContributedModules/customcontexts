@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-24 14:17-0800\n"
+"POT-Creation-Date: 2017-08-30 16:40-0400\n"
 "PO-Revision-Date: 2015-04-25 07:59+0200\n"
 "Last-Translator: Victor <victor.martinez@neocenter.com>\n"
 "Language-Team: Spanish <http://weblate.freepbx.org/projects/fpbxcn/"
@@ -32,19 +32,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.2-dev\n"
 
-#: functions.inc.php:413 functions.inc.php:572
+#: functions.inc.php:375 functions.inc.php:534
 msgid " v"
 msgstr " v"
 
-#: functions.inc.php:415 functions.inc.php:574
+#: views/extensions_hook.php:23
+msgid "ALLOW ALL (Default)"
+msgstr ""
+
+#: functions.inc.php:377 functions.inc.php:536
 msgid "Add Context"
 msgstr "Agregar Contexto"
 
-#: customcontexts.i18n.php:6 customcontexts.i18n.php:12
+#: views/extensions_hook.php:32
+msgid "Add Extension"
+msgstr ""
+
+#: views/extensions_hook.php:34
+msgid "Add User"
+msgstr ""
+
+#: customcontexts.i18n.php:6
 msgid "Connectivity"
 msgstr "Conectividad"
 
-#: functions.inc.php:406 functions.inc.php:430 functions.inc.php:563
+#: functions.inc.php:368 functions.inc.php:392 functions.inc.php:525
 #: page.customcontexts.php:21 page.customcontextsadmin.php:24
 msgid "Context"
 msgstr "Contexto"
@@ -69,12 +81,16 @@ msgstr ""
 "se pueden colocar en un contexto restringido permitiéndo sólo llamadas "
 "internas."
 
-#: functions.inc.php:811
+#: views/extensions_hook.php:38
+msgid "Custom Context"
+msgstr ""
+
+#: functions.inc.php:773
 #, php-format
 msgid "Custom Context: %s"
 msgstr "Contexto Personalizado: %s"
 
-#: functions.inc.php:840
+#: functions.inc.php:802
 #, php-format
 msgid "Custom Context: %s (%s)"
 msgstr "Contexto Personalizado: %s (%s)"
@@ -83,19 +99,27 @@ msgstr "Contexto Personalizado: %s (%s)"
 msgid "Custom Contexts"
 msgstr "Contextos Personalizados"
 
-#: customcontexts.i18n.php:14
+#: customcontexts.i18n.php:12
 msgid "Custom Contexts Admin"
 msgstr "Administración de contextos personlizado"
 
-#: functions.inc.php:590
+#: functions.inc.php:552
 msgid "Duplicate Context"
 msgstr "Duplicar Contexto"
 
-#: functions.inc.php:424 functions.inc.php:587
+#: functions.inc.php:386 functions.inc.php:549
 msgid "Edit Context"
 msgstr "Editar Contexto"
 
-#: functions.inc.php:426
+#: views/extensions_hook.php:32
+msgid "Edit Extension"
+msgstr ""
+
+#: views/extensions_hook.php:34
+msgid "Edit User"
+msgstr ""
+
+#: functions.inc.php:388
 msgid "Remove Context"
 msgstr "Remover Contexto"
 
@@ -104,6 +128,13 @@ msgid "Time Conditions Module required and not present .. aborting install"
 msgstr ""
 "Módulo de Condiciones de tiempo  requerido y no presente .. abortar "
 "instalación"
+
+#: views/extensions_hook.php:38
+#, php-format
+msgid ""
+"You can select a custom context from this list to limit this user to "
+"portions of the dialplan you defined in the %s module."
+msgstr ""
 
 #: install.php:141 install.php:149
 msgid "done"

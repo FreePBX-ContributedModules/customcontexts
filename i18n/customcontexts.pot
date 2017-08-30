@@ -3,13 +3,13 @@
 # For licensing information, please see the file named LICENSE located in the module directory
 #
 # FreePBX language template for customcontexts
-# Copyright (C) 2008-2015 Sangoma, Inc.
+# Copyright (C) 2008-2017 Sangoma Technologies, Inc.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-24 14:17-0800\n"
+"POT-Creation-Date: 2017-08-30 16:40-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,24 +17,35 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: functions.inc.php:413
-#: functions.inc.php:572
+#: functions.inc.php:375
+#: functions.inc.php:534
 msgid " v"
 msgstr ""
 
-#: functions.inc.php:415
-#: functions.inc.php:574
+#: views/extensions_hook.php:23
+msgid "ALLOW ALL (Default)"
+msgstr ""
+
+#: functions.inc.php:377
+#: functions.inc.php:536
 msgid "Add Context"
 msgstr ""
 
+#: views/extensions_hook.php:32
+msgid "Add Extension"
+msgstr ""
+
+#: views/extensions_hook.php:34
+msgid "Add User"
+msgstr ""
+
 #: customcontexts.i18n.php:6
-#: customcontexts.i18n.php:12
 msgid "Connectivity"
 msgstr ""
 
-#: functions.inc.php:406
-#: functions.inc.php:430
-#: functions.inc.php:563
+#: functions.inc.php:368
+#: functions.inc.php:392
+#: functions.inc.php:525
 #: page.customcontexts.php:21
 #: page.customcontextsadmin.php:24
 msgid "Context"
@@ -51,12 +62,16 @@ msgid ""
 "placed in a restricted context allowing them only internal calls."
 msgstr ""
 
-#: functions.inc.php:811
+#: views/extensions_hook.php:38
+msgid "Custom Context"
+msgstr ""
+
+#: functions.inc.php:773
 #, php-format
 msgid "Custom Context: %s"
 msgstr ""
 
-#: functions.inc.php:840
+#: functions.inc.php:802
 #, php-format
 msgid "Custom Context: %s (%s)"
 msgstr ""
@@ -66,25 +81,40 @@ msgstr ""
 msgid "Custom Contexts"
 msgstr ""
 
-#: customcontexts.i18n.php:14
+#: customcontexts.i18n.php:12
 msgid "Custom Contexts Admin"
 msgstr ""
 
-#: functions.inc.php:590
+#: functions.inc.php:552
 msgid "Duplicate Context"
 msgstr ""
 
-#: functions.inc.php:424
-#: functions.inc.php:587
+#: functions.inc.php:386
+#: functions.inc.php:549
 msgid "Edit Context"
 msgstr ""
 
-#: functions.inc.php:426
+#: views/extensions_hook.php:32
+msgid "Edit Extension"
+msgstr ""
+
+#: views/extensions_hook.php:34
+msgid "Edit User"
+msgstr ""
+
+#: functions.inc.php:388
 msgid "Remove Context"
 msgstr ""
 
 #: install.php:33
 msgid "Time Conditions Module required and not present .. aborting install"
+msgstr ""
+
+#: views/extensions_hook.php:38
+#, php-format
+msgid ""
+"You can select a custom context from this list to limit this user to "
+"portions of the dialplan you defined in the %s module."
 msgstr ""
 
 #: install.php:141
