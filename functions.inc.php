@@ -695,19 +695,19 @@ function customcontexts_customcontexts_editincludes($context,$includes,$newconte
 	}
 	$includes = is_array($includes)?$includes:array();
 	foreach ($includes as $key=>$val) {
-		if ($val[allow] <> 'no') {
+		if ($val['allow'] <> 'no') {
 			$timegroup = 'null';
 			$sort = 0;
 			$userules = null;
-			if (is_numeric($val[allow])) {
-				$timegroup = $val[allow];
+			if (is_numeric($val['allow'])) {
+				$timegroup = $val['allow'];
 			} else {
-				if ($val[allow] <> 'yes') {
-					$userules = $val[allow];
+				if ($val['allow'] <> 'yes') {
+					$userules = $val['allow'];
 				}
 			}
-			if (is_numeric($val[sort])) {
-				$sort = $val[sort];
+			if (is_numeric($val['sort'])) {
+				$sort = $val['sort'];
 			}
 			$sql = "insert customcontexts_includes (context, include, timegroupid, sort, userules) values ('$newcontext','$key', $timegroup, $sort, '$userules')";
 			$db->query($sql);
