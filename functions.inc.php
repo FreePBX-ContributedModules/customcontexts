@@ -753,33 +753,40 @@ function customcontexts_customcontexts_edit($context,$newcontext,$description,$d
 }
 
 //update the includes under a single custom context from the custom contexts page
-function customcontexts_customcontexts_editincludes($context,$includes,$newcontext) {
-	global $db;
-	$sql = "delete from customcontexts_includes  where context = '$context'";
-	$db->query($sql);
-	if (!isset($newcontext) || ($newcontext == '')) {
-		$newcontext = $context;
-	}
-	foreach ($includes as $key=>$val) {
-		if ($val[allow] <> 'no') {
-			$timegroup = 'null';
-			$sort = 0;
-			$userules = null;
-			if (is_numeric($val[allow])) {
-				$timegroup = $val[allow];
-			} else {
-				if ($val[allow] <> 'yes') {
-					$userules = $val[allow];
-				}
-			}
-			if (is_numeric($val[sort])) {
-				$sort = $val[sort];
-			}
-			$sql = "insert customcontexts_includes (context, include, timegroupid, sort, userules) values ('$newcontext','$key', $timegroup, $sort, '$userules')";
-			$db->query($sql);
-		}
-	}
-	needreload();
+function customcontexts_customcontexts_editincludes($context, $includes, $newcontext = null) {
+    global $db;
+   
+    $sql = "DELETE FROM customcontexts_includes WHERE context = '$context'";
+    $db->query($sql);
+   
+    if (!isset($newcontext) || $newcontext === '') {
+        $newcontext = $context;
+    }
+   
+    foreach ($includes as $key => $val) {
+        if ($val['allow'] !== 'no') {
+            $timegroup = 'null';
+            $sort = 0;
+            $userules = null;
+           
+            if (is_numeric($val['allow'])) {
+                $timegroup = $val['allow'];
+            } else {
+                if ($val['allow'] !== 'yes') {
+                    $userules = $val['allow'];
+                }
+            }
+           
+            if (is_numeric($val['sort'])) {
+                $sort = $val['sort'];
+            }
+           
+            $sql = "INSERT INTO customcontexts_includes (context, include, timegroupid, sort, userules) VALUES ('$newcontext', '$key', $timegroup, $sort, '$userules')";
+            $db->query($sql);
+        }
+    }
+   
+    needreload();
 }
 
 function customcontexts_customcontexts_duplicatecontext($context) {
